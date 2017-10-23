@@ -16,6 +16,10 @@ def get_user_input
   gets.chomp.downcase
 end
 
+def help
+  puts "You want some help? TOUGH LUCK\n"
+end
+
 def goodbye
   puts "Goodbye!"
   User.delete_all
