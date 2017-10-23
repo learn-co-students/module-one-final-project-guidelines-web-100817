@@ -10,4 +10,4 @@ tmp
 *.log
 *.swp
 
-config/twitter_client_config.rb
+config/application.yml
