@@ -8,6 +8,22 @@ while answer != "q"
   case answer = get_user_input
   when "h"
     help
+  when "q"
+    break
+  when "number of friends"
+    number_of_friends
+  when "number of tweets"
+    number_of_tweets
+  when "number of hashtags"
+    number_of_hashtags
+  when "most popular friend"
+    most_popular_friend
+  when "most popular tweet"
+    most_popular_tweet
+  when "most popular hashtag"
+    most_popular_hashtag
+  else
+    err
   end
 end
 goodbye
