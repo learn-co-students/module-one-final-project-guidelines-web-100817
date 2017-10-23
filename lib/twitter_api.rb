@@ -12,8 +12,30 @@ class TwitterApi
     end
   end
 
-  def most_recent_friend
-    client.friends.first
+  def get_user_friends
+    friends_info = client.friends(client.user).attrs[:users].take(10)
+    friends_info.each do |friend|
+      User.create(name: friend[:name], twitter_handle: friend[:screen_name], location: friend[:location], following: friend[:friends_count], followers: friend[:followers_count])
+    end
   end
+
+  def get_user_tweets
+    User.all.each do |user|
+      user_tweets = self.client.user_timeline(user[:twitter_handle])
+      user_tweets.each do |tweet|
+        Tweet.create(user_id: user.id, content: tweet.text, retweets: tweet.retweet_count, likes: tweet.favorite_count)
+        if !tweet.hashtags.empty?
+          tweet.hashtags.each do |hashtag|
+            Tweet_Hashtag.create(tweet: Tweet.all.last, hashtag: Hashtag.find_or_create_by(title: hashtag.text))
+          end
+        end
+      end
+    end
+  end
+
+  # def get_hashtags
+  #   Tweet.all.each do |tweet|
+      
+  # end
   
 end
