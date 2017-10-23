@@ -16,15 +16,12 @@ def iterator
     newData << clues
     counter += 100
   end
-  puts JSON.pretty_generate newData
+  # binding.pry
+  fullData = JSON.pretty_generate(newData.flatten)
+
 end
 
 iterator
-
-
-
-
-
 
 ## BONUS
 
