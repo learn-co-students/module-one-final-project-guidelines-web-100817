@@ -10,8 +10,7 @@ language = Google::Cloud::Language.new project: project_id
 
 # The text to analyze
 text     = "You suck!"
-document = language.document text
-
+document = language.document(text)
 # Detects the sentiment of the text
 sentiment = document.sentiment
 
