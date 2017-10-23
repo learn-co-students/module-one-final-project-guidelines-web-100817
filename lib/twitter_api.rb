@@ -33,10 +33,4 @@ class TwitterApi
     end
   end
 
-  def self.get_sentiment_scores
-    Tweet.all.each do |tweet|
-      Sentiment.get_sentiment_score(tweet)
-    end
-  end
-
 end
