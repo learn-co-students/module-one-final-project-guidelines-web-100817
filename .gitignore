@@ -9,3 +9,5 @@ tmp
 *.iml
 *.log
 *.swp
+
+config/twitter_client_config.rb
