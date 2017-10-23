@@ -1,6 +1,4 @@
 require "google/cloud/language"
-# puts "Text: #{text}"
-# puts "Score: #{sentiment.score}, #{sentiment.magnitude}"
 
 class Sentiment
   def self.get_sentiment_score(tweet)
