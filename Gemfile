@@ -8,3 +8,4 @@ gem 'rake'
 gem "require_all"
 gem "google-cloud-language"
 gem "twitter"
+gem "terminal-table"

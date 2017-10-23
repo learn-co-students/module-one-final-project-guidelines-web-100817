@@ -1,3 +1,4 @@
+require 'terminal-table'
 require 'bundler'
 Bundler.require
 
