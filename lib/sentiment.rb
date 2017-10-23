@@ -49,4 +49,12 @@ class Sentiment
     self.user_sentiment_hash.find {|name, score| score == self.user_sentiment_hash.values.min}[0]
   end
 
+  def self.most_positive_tweet
+    Tweet.order("sentiment_score DESC").first.content
+  end
+
+  def self.most_negative_tweet
+    Tweet.order("sentiment_score ASC").first.content
+  end
+
 end
