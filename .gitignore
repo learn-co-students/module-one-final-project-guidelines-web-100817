@@ -11,3 +11,4 @@ tmp
 *.swp
 
 config/twitter_client_config.rb
+Mod1_keys.json
