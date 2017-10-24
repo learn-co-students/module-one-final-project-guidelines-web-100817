@@ -22,6 +22,16 @@ while answer != "q"
     most_popular_tweet
   when "most popular hashtag"
     most_popular_hashtag
+  when "friend table"
+    friend_table
+  when "most positive friend"
+    most_positive_friend
+  when "most negative friend"
+    most_negative_friend
+  when "most positive tweet"
+    most_positive_tweet
+  when "most negative tweet"
+    most_negative_tweet
   else
     err
   end

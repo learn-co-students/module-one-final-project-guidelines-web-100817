@@ -95,6 +95,34 @@ def most_popular_hashtag
   puts "The person who has tweeted it most is #{tweeters.key(tweeters.values.max)}. They have tweeted it #{tweeters.values.max} times.\n\n"
 end
 
+### SENTIMENT ###
+def friend_table
+  puts "\nHere's a table of how positive or negative your friends are:"
+  Sentiment.sentiment_table
+  puts "\n\n"
+end
+
+def most_positive_friend
+  puts "\nLooks like #{Sentiment.most_positive_friend} is a real ray of sunshine.\n\n"
+end
+
+def most_negative_friend
+  puts "\nIs it true that #{Sentiment.most_negative_friend} is always a bummer?\n\n"
+end
+
+def most_positive_tweet
+  puts "\nDoes this make you happy?"
+  puts "#{Sentiment.most_positive_tweet}\n\n"
+end
+
+def most_negative_tweet
+  puts "\nBack in MY day, we walked uphill everywhere we went."
+  puts "#{Sentiment.most_negative_tweet}\n\n"
+end
+
+def average_friend_sentiment
+end
+
 ### FORMATTING ###
 def taste_the_rainbow(string)
   colors = [:light_magenta, :light_red, :light_yellow, :light_green, :light_cyan, :light_blue]
@@ -108,17 +136,20 @@ def taste_the_rainbow(string)
     end
   end
 end
-
+#
+# def number_readability(number)
+#   num_array = number.to_s.split("")
+#   return_array = []
+#   num_array.each.with_index do |int, index|
+#     nums_left = num_array.length - index
+#     if nums_left % 3 == 0 && nums_left > 0
+#       return_array << ",#{int}"
+#     else
+#       return_array << int
+#     end
+#   end
+#   return_array.join("")
+# end
 def number_readability(number)
-  num_array = number.to_s.split("")
-  return_array = []
-  num_array.each.with_index do |int, index|
-    nums_left = num_array.length - index
-    if nums_left % 3 == 0 && nums_left > 0
-      return_array << ",#{int}" 
-    else
-      return_array << int
-    end
-  end
-  return_array.join("")
+  number.reverse.scan(/.{1,3}/).join(",").reverse
 end
