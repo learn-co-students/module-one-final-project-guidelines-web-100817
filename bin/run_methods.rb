@@ -26,7 +26,20 @@ end
 
 def get_user_input
   print "What would you like to do? (type 'h' for help, 'q' for quit): ".light_blue
-  gets.chomp.downcase
+  answer = gets.chomp.downcase
+  if answer.match(/h[a|e]+lp|^h/)
+    "help"
+  elsif answer.match(/quit|^q/)
+    "quit"
+  elsif answer.match(/most ((popular)|(followed)) ((friend)|(person)|(account))/) || answer.match(/((friend)|(person)|(account)).*((most)|(highest number)).*((popular)|(followers))/)
+    "most popular friend"
+  elsif answer.match(/most ((popular)|(common)(ly)?( used)?) hashtag/)
+    "most popular hashtag"
+  elsif answer.match(/most ((popular)|(liked)) tweet/) || answer.match(/tweet.*most.*like/)
+    "most popular tweet"
+  else
+    answer
+  end
 end
 
 def help

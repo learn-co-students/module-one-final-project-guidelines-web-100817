@@ -6,9 +6,9 @@ keep_database?
 answer = nil
 while answer != "q"
   case answer = get_user_input
-  when "h"
+  when "help"
     help
-  when "q"
+  when "quit"
     break
   when "number of friends"
     number_of_friends
