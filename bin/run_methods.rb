@@ -38,7 +38,7 @@ def help
   puts "  - number of hashtags".cyan
   puts "- About Me".yellow
   puts "  - my sentiment score".cyan
-  puts "  - my most positive tweet".cyan
+  puts "  - my most positive/negative tweet".cyan
   puts "  - my most popular tweet".cyan
   puts "- Popularity".yellow
   puts "  - most popular friend".cyan
@@ -78,6 +78,30 @@ def number_of_hashtags
   print "\nYour friends have used #{Hashtag.all.count} hashtags a total of #{TweetHashtag.all.count} times. "
   taste_the_rainbow("#octothorpe")
   puts ""
+end
+
+### ABOUT ME ###
+def my_sentiment
+  Sentiment.get_avg_for_user(User.last)
+end
+
+def my_most_popular_tweet
+  user = User.last
+  tweet = user.tweets.order("likes DESC").first
+  puts "\nWow, a lot of people like this tweet! #{number_readability(tweet.likes)} people, to be exact."
+  format_tweet(user, tweet)
+end
+
+def my_most_positive_tweet
+  tweet = User.last.tweets.order("sentiment_score DESC").first
+  puts "\nDid you meet a tiny duck in boots just before you tweeted this?"
+  format_tweet(User.last, tweet)
+end
+
+def my_most_negative_tweet
+  tweet = User.last.tweets.order("sentiment_score ASC").first
+  puts "\nGeez, you didn't have to kick over my half-full glass."
+  format_tweet(User.last, tweet)
 end
 
 ### POPULARITY ###
@@ -180,10 +204,7 @@ def top_ten_popular_tweets
   puts "\n\n"
   tweets.each do |tweet|
     user = User.find(tweet.user_id)
-    puts "#{user.name}" + " @#{user.twitter_handle}".yellow
-    puts "#{tweet.date_posted.strftime("%A, %b %d %Y")} #{tweet.date_posted.strftime("%I:%M")}"
-    puts "\n#{tweet.content}\n"
-    puts "#{tweet.likes} \u{2764}"
+    format_tweet(user, tweet)
     puts "\n-------------------------------------------------\n\n"
     sleep(0.75)
   end
@@ -215,4 +236,11 @@ end
 
 def number_readability(number)
   number.to_s.reverse.scan(/.{1,3}/).join(",").reverse
+end
+
+def format_tweet(user, tweet)
+  puts "\n#{user.name}" + " @#{user.twitter_handle}".yellow
+  puts "#{tweet.date_posted.strftime("%A, %b %d %Y")} #{tweet.date_posted.strftime("%I:%M")}"
+  puts "\n#{tweet.content}\n"
+  puts "#{tweet.likes} \u{2764}\n\n"
 end

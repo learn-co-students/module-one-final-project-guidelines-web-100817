@@ -46,6 +46,14 @@ while answer != "q"
     top_ten_popular_tweets
   when "top 10 most popular hashtags"
     top_ten_popular_hashtags
+  when "my sentiment"
+    my_sentiment
+  when "my most positive tweet"
+    my_most_positive_tweet
+  when "my most negative tweet"
+    my_most_negative_tweet
+  when "my most popular tweet"
+    my_most_popular_tweet
   else
     err
   end
