@@ -122,10 +122,21 @@ def detail_user(input)
     puts "Hmm... I couldn't seem to find who you were looking for."
   end
 end
-  
+
 ### ABOUT ME ###
 def my_sentiment
-  Sentiment.get_avg_for_user(User.first)
+  sentiment = Sentiment.get_avg_for_user(User.first)
+  puts "\nYour sentiment score is currently: #{sentiment}"
+  if sentiment < -0.5
+    sentiment = "dreadful"
+  elsif sentiment < 0
+    sentiment = "downer"
+  elsif sentiment < 0.5
+    sentiment = "slightly happy"
+  else
+    sentiment = "beaming"
+  end
+  puts "That means that you've probably been #{sentiment} lately."
 end
 
 def my_most_popular_tweet
