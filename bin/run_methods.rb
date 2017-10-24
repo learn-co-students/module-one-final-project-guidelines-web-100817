@@ -161,6 +161,20 @@ def my_most_negative_tweet
   format_tweet(User.first, tweet)
 end
 
+def my_average_tweeting_time
+  user = User.first
+  time1 = user.tweets.last.date_posted
+  time2 = user.tweets.first.date_posted
+  avg = (((time2 - time1) / 1.hour).round) / user.tweets.length
+  if avg < 10
+    puts "\nWow, looks you only wait an average of #{avg} hours between tweets. Needy much?"
+  elsif avg < 24
+    puts "\nYou tweet, on average, once every #{avg} hours."
+  else
+    puts "\nYou only tweet once every #{avg} hours. You should probably tweet more if you want people to care."
+  end
+end
+
 ### POPULARITY ###
 def most_popular_friend
   most_popular_friend = User.order("followers DESC").first
@@ -366,6 +380,11 @@ def all_user_info
 end
 
 def all_hashtag_info
+  rows = Hashtag.all.order(:title).inject([]) do |memo, hashtag|
+    memo << ["\##{hashtag.title}", hashtag.tweets.count]
+  end
+  table = Terminal::Table.new(:headings => ["Title".yellow, "\# of Tweets"], :rows => rows)
+  puts table
 end
 
 ### HELPERS ###
