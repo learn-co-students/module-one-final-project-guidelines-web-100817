@@ -16,7 +16,7 @@ class Sentiment
     total = Tweet.all.inject(0) do |memo, tweet|
       memo += tweet.sentiment_score
     end
-    (total / user.tweets.length).round(2).to_f
+    (total / Tweet.all.length).round(2).to_f
   end
 
   def self.get_avg_for_user(user)
@@ -26,9 +26,10 @@ class Sentiment
     (total / user.tweets.length).round(2).to_f
   end
 
-  def self.populate_sentiment_scores
+  def self.populate_sentiment_scores(progress)
     Tweet.all.each do |tweet|
       Sentiment.get_sentiment_score(tweet)
+      progress.increment
     end
   end
 

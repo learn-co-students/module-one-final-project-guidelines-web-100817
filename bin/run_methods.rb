@@ -1,16 +1,26 @@
 def greet
   puts "\nHello there! Welcome to our friendly Twitter CLI.".colorize(:yellow)
   taste_the_rainbow("All your base are belong to us")
-  print "Please enter your username: "
-  gets.chomp
 end
 
-def populate_database(username)
+def keep_database?
+  print "Would you like to keep the database or get a new one? "
+  answer = gets.chomp
+  populate_database if answer == "get"
+end
+
+def populate_database
+  print "Please enter your username: "
+  username = gets.chomp
   puts "Populating the database with your so-called friends...\n\n"
+  User.delete_all
+  Tweet.delete_all
+  Hashtag.delete_all
+  TweetHashtag.delete_all
   progress = ProgressBar.create(starting_at: 0, total: nil, length: 50)
   TwitterApi.get_user_friends(username, progress)
   TwitterApi.get_user_tweets(progress)
-  # Sentiment.populate_sentiment_scores
+  Sentiment.populate_sentiment_scores(progress)
   puts "\n\nAlright. We got some information for 'ya.".light_green
 end
 
@@ -43,10 +53,6 @@ end
 
 def goodbye
   puts "\nGoodbye!\n\n"
-  User.delete_all
-  Tweet.delete_all
-  Hashtag.delete_all
-  TweetHashtag.delete_all
 end
 
 ### BASICS ###
@@ -59,7 +65,7 @@ def number_of_tweets
 end
 
 def number_of_hashtags
-  print "\nYour friends have used #{Hashtag.all.count} hashtags a total of #{TweetHashtag.all.count} times. ".colorize(:green)
+  print "\nYour friends have used #{Hashtag.all.count} hashtags a total of #{TweetHashtag.all.count} times. "
   taste_the_rainbow("#octothorpe")
   puts ""
 end
