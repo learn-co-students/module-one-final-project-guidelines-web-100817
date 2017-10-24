@@ -22,14 +22,13 @@ def iterator
     category = Category.find_or_create_by(name: obj["category"]["title"])
     value = Value.find_or_create_by(value: obj["value"])
     question = Question.find_or_create_by(question: obj["question"], answer: obj["answer"], category: category, value: value, date: obj["airdate"])
-    binding.pry
   end
 
 
 end
 
 
-iterator
+# iterator
 
 
 ## BONUS
