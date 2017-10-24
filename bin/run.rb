@@ -54,6 +54,8 @@ while answer != "q"
     my_most_negative_tweet
   when "my most popular tweet"
     my_most_popular_tweet
+  when "my average tweeting time"
+    my_average_tweeting_time
   when "all user info"
     all_user_info
   when "all hashtag info"
