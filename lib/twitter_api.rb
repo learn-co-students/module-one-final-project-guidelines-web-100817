@@ -1,36 +1,35 @@
+require_relative('../bin/run_methods.rb')
+
 class TwitterApi
 
-  attr_accessor :client
-
-  def initialize
-    keys = YAML.load_file('config/application.yml')
-    @client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = keys['consumer_key']
-      config.consumer_secret     = keys['consumer_secret']
-      config.access_token        = keys['access_token']
-      config.access_token_secret = keys['access_token_secret']
-    end
+  keys = YAML.load_file('config/application.yml')
+  @@client = Twitter::REST::Client.new do |config|
+    config.consumer_key        = keys['consumer_key']
+    config.consumer_secret     = keys['consumer_secret']
+    config.access_token        = keys['access_token']
+    config.access_token_secret = keys['access_token_secret']
   end
 
-  def get_user_friends
-    friends_info = client.friends(client.user).attrs[:users].take(10)
+  def self.get_user_friends(username, progress)
+    friends_info = @@client.friends(username).attrs[:users]
     friends_info.each do |friend|
       User.create(name: friend[:name], twitter_handle: friend[:screen_name], location: friend[:location], following: friend[:friends_count], followers: friend[:followers_count])
+      progress.increment
     end
   end
 
-  def get_user_tweets
+  def self.get_user_tweets(progress)
     User.all.each do |user|
-      user_tweets = self.client.user_timeline(user[:twitter_handle])
+      user_tweets = @@client.user_timeline(user[:twitter_handle])
       user_tweets.each do |tweet|
         Tweet.create(user_id: user.id, content: tweet.text, retweets: tweet.retweet_count, likes: tweet.favorite_count)
         if !tweet.hashtags.empty?
           tweet.hashtags.each do |hashtag|
-            Tweet_Hashtag.create(tweet: Tweet.all.last, hashtag: Hashtag.find_or_create_by(title: hashtag.text))
+            TweetHashtag.create(tweet: Tweet.all.last, hashtag: Hashtag.find_or_create_by(title: hashtag.text))
+            progress.increment
           end
         end
       end
     end
   end
-
 end
