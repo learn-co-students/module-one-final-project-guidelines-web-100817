@@ -36,6 +36,10 @@ def help
   puts "  - number of friends".cyan
   puts "  - number of tweets".cyan
   puts "  - number of hashtags".cyan
+  puts "- About Me".yellow
+  puts "  - my sentiment score".cyan
+  puts "  - my most positive tweet".cyan
+  puts "  - my most popular tweet".cyan
   puts "- Popularity".yellow
   puts "  - most popular friend".cyan
   puts "  - most popular hashtag".cyan
@@ -208,20 +212,7 @@ def taste_the_rainbow(string)
     end
   end
 end
-#
-# def number_readability(number)
-#   num_array = number.to_s.split("")
-#   return_array = []
-#   num_array.each.with_index do |int, index|
-#     nums_left = num_array.length - index
-#     if nums_left % 3 == 0 && nums_left > 0
-#       return_array << ",#{int}"
-#     else
-#       return_array << int
-#     end
-#   end
-#   return_array.join("")
-# end
+
 def number_readability(number)
   number.to_s.reverse.scan(/.{1,3}/).join(",").reverse
 end
