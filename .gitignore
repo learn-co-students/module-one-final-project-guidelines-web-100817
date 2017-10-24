@@ -12,3 +12,4 @@ tmp
 
 config/twitter_client_config.rb
 Mod1_keys.json
+config/application.yml

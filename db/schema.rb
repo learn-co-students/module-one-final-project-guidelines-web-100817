@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "tweets", force: :cascade do |t|
     t.integer "user_id"
     t.string  "content"
-    t.integer "comments"
     t.integer "retweets"
     t.integer "likes"
     t.decimal "sentiment_score"
