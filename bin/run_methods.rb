@@ -18,6 +18,7 @@ def populate_database
   Hashtag.delete_all
   TweetHashtag.delete_all
   progress = ProgressBar.create(starting_at: 0, total: nil, length: 50)
+  TwitterApi.get_my_tweets(username)
   TwitterApi.get_user_friends(username, progress)
   TwitterApi.get_user_tweets(progress)
   Sentiment.populate_sentiment_scores(progress)
@@ -55,6 +56,10 @@ def help
   puts "  - number of tweets".cyan
   puts "  - number of hashtags".cyan
   puts "  - detail user".cyan
+  puts "- About Me".yellow
+  puts "  - my sentiment score".cyan
+  puts "  - my most positive/negative tweet".cyan
+  puts "  - my most popular tweet".cyan
   puts "- Popularity".yellow
   puts "  - most popular friend".cyan
   puts "  - most popular hashtag".cyan
@@ -116,6 +121,29 @@ def detail_user(input)
   else
     puts "Hmm... I couldn't seem to find who you were looking for."
   end
+  
+### ABOUT ME ###
+def my_sentiment
+  Sentiment.get_avg_for_user(User.last)
+end
+
+def my_most_popular_tweet
+  user = User.last
+  tweet = user.tweets.order("likes DESC").first
+  puts "\nWow, a lot of people like this tweet! #{number_readability(tweet.likes)} people, to be exact."
+  format_tweet(user, tweet)
+end
+
+def my_most_positive_tweet
+  tweet = User.last.tweets.order("sentiment_score DESC").first
+  puts "\nDid you meet a tiny duck in boots just before you tweeted this?"
+  format_tweet(User.last, tweet)
+end
+
+def my_most_negative_tweet
+  tweet = User.last.tweets.order("sentiment_score ASC").first
+  puts "\nGeez, you didn't have to kick over my half-full glass."
+  format_tweet(User.last, tweet)
 end
 
 ### POPULARITY ###
@@ -282,6 +310,37 @@ def most_negative_hashtag
   puts "\nTo wallow in your misery with other likeminded people, use \##{title}.\n\n"
 end
 
+### TOP 10 ###
+def top_ten_popular_friends
+  users = User.order("users.followers DESC").take(10)
+  rows = users.inject([]) do |memo, user|
+    memo << [user.name, user.twitter_handle, number_readability(user.followers)]
+    memo
+  end
+  table = Terminal::Table.new(:headings => ["Name".yellow, "Twitter Handle".yellow, "Followers".yellow], :rows => rows)
+  puts table
+end
+
+def top_ten_popular_tweets
+  tweets = Tweet.order("likes DESC").take(10)
+  puts "\n\n"
+  tweets.each do |tweet|
+    user = User.find(tweet.user_id)
+    format_tweet(user, tweet)
+    puts "\n-------------------------------------------------\n\n"
+    sleep(0.75)
+  end
+end
+
+def top_ten_popular_hashtags
+  hashtags = Hashtag.joins(:tweet_hashtags).group("tweet_hashtags.hashtag_id").order("COUNT(tweet_hashtags.hashtag_id) DESC").take(10)
+  rows = hashtags.inject([]) do |memo, hashtag|
+    memo << ["\##{hashtag.title}", hashtag.tweets.count]
+  end
+  table = Terminal::Table.new(:headings => ["Hashtag".yellow, "\# of Tweets".yellow], :rows => rows)
+  puts table
+end
+
 
 ### HELPERS ###
 def taste_the_rainbow(string)
@@ -309,6 +368,9 @@ def find_hashtag(input)
   input.start_with?("#") ? Hashtag.find_by(title: input.split("")[1..-1].join("")) : Hashtag.find_by(title: input)
 end
 
-
-
-# Hashtag.joins(:tweets).where("tweets.user_id = ?", user.id).group("hashtags.title").order("count(hashtags.title) DESC")
+def format_tweet(user, tweet)
+  puts "\n#{user.name}" + " @#{user.twitter_handle}".yellow
+  puts "#{tweet.date_posted.strftime("%A, %b %d %Y")} #{tweet.date_posted.strftime("%I:%M")}"
+  puts "\n#{tweet.content}\n"
+  puts "#{tweet.likes} \u{2764}\n\n"
+end

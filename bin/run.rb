@@ -40,6 +40,20 @@ while answer != "q"
     most_positive_hashtag
   when "most negative hashtag"
     most_negative_hashtag
+  when "top 10 most popular friends"
+    top_ten_popular_friends
+  when "top 10 most popular tweets"
+    top_ten_popular_tweets
+  when "top 10 most popular hashtags"
+    top_ten_popular_hashtags
+  when "my sentiment"
+    my_sentiment
+  when "my most positive tweet"
+    my_most_positive_tweet
+  when "my most negative tweet"
+    my_most_negative_tweet
+  when "my most popular tweet"
+    my_most_popular_tweet
   else
     err
   end
