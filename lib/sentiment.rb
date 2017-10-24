@@ -74,7 +74,6 @@ class Sentiment
   end
 
   def self.make_slider(row_array)
-    "Negative ----------|---------- Positive"
     str = "Negative "
     if row_array[1] > 0
       str += "-" * 10
