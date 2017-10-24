@@ -1,4 +1,4 @@
-class MakeTweets < ActiveRecord::Migration
+class MakeTweets < ActiveRecord::Migration[4.2]
   def change
     create_table :tweets do |t|
       t.integer :user_id

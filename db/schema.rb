@@ -23,16 +23,16 @@ ActiveRecord::Schema.define(version: 5) do
 
   create_table "tweets", force: :cascade do |t|
     t.integer "user_id"
-    t.string  "content"
+    t.string "content"
     t.integer "retweets"
     t.integer "likes"
     t.decimal "sentiment_score"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string  "name"
-    t.string  "twitter_handle"
-    t.string  "location"
+    t.string "name"
+    t.string "twitter_handle"
+    t.string "location"
     t.integer "following"
     t.integer "followers"
   end
