@@ -121,6 +121,31 @@ def most_negative_tweet
 end
 
 def average_friend_sentiment
+  puts "\nThe average mood of the people you follow is:"
+  sentiment = Sentiment.get_avg_sentiment
+  puts sentiment
+  if sentiment < -0.5
+    sentiment = "dreadful"
+  elsif sentiment < 0
+    sentiment = "downer"
+  elsif sentiment < 0.5
+    sentiment = "slightly happy"
+  else
+    sentiment = "beaming"
+  end
+  puts "That means you're surrounded by #{sentiment} people."
+end
+
+def most_positive_hashtag
+  hash = Sentiment.avg_hashtag_hash
+  title = hash.find {|name, score| score == hash.values.max}[0]
+  puts "\nIf you want to be cruel, you should tweet with \##{title}.\n\n"
+end
+
+def most_negative_hashtag
+  hash = Sentiment.avg_hashtag_hash
+  title = hash.find {|name, score| score == hash.values.min}[0]
+  puts "\nTo wallow in your misery with other likeminded people, use \##{title}.\n\n"
 end
 
 ### FORMATTING ###
@@ -151,5 +176,5 @@ end
 #   return_array.join("")
 # end
 def number_readability(number)
-  number.reverse.scan(/.{1,3}/).join(",").reverse
+  number.to_s.reverse.scan(/.{1,3}/).join(",").reverse
 end

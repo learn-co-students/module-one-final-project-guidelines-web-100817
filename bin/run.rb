@@ -32,6 +32,12 @@ while answer != "q"
     most_positive_tweet
   when "most negative tweet"
     most_negative_tweet
+  when "average friend sentiment"
+    average_friend_sentiment
+  when "most positive hashtag"
+    most_positive_hashtag
+  when "most negative hashtag"
+    most_negative_hashtag
   else
     err
   end

@@ -64,6 +64,19 @@ class Sentiment
     self.user_sentiment_hash.to_a.sort_by {|x| x[1]}
   end
 
+  def self.avg_hashtag_sentiment(hashtag)
+    total = hashtag.tweets.inject(0) {|memo, tweet| memo += tweet.sentiment_score}
+    (total / hashtag.tweets.length).round(2).to_f
+  end
+
+  def self.avg_hashtag_hash
+    Hashtag.all.inject({}) do |memo, hashtag|
+      memo[hashtag.title] = self.avg_hashtag_sentiment(hashtag)
+      memo
+    end
+  end
+
+  ###MAKE SENTIMENT TABLE
   def self.sentiment_table
     rows = self.get_sentiment_array
     rows.each do |row_array|
