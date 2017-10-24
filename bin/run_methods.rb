@@ -60,10 +60,16 @@ def help
   puts "  - most popular tweet".cyan
   puts "- Sentiment".yellow
   puts "  - friend table".cyan
+  puts "  - hashtag table".cyan
   puts "  - most positive/negative friend".cyan
   puts "  - most positive/negative tweet".cyan
   puts "  - most positive/negative hashtag".cyan
   puts "  - average friend sentiment\n".cyan
+  puts "- Top 10s".yellow
+  puts "  - top 10 most tweeters"
+  puts "  - top 10 most popular friends"
+  puts "  - top 10 most popular tweets"
+  puts "  - top 10 most popular hashtags"
 end
 
 def err
@@ -114,6 +120,66 @@ def most_popular_hashtag
   puts "The person who has tweeted it most is #{tweeters.key(tweeters.values.max)}. They have tweeted it #{tweeters.values.max} times.\n\n"
 end
 
+### SENTIMENT ###
+def friend_table
+  puts "\nHere's a table of how positive or negative your friends are:"
+  Sentiment.table(Sentiment.user_sentiment_hash)
+  puts "\n\n"
+end
+
+def hashtag_table
+  puts "\nHere's a table of how positive or negative all the hashtags are:"
+  Sentiment.table(Sentiment.avg_hashtag_hash)
+  puts "\n\n"
+end
+
+def most_positive_friend
+  puts "\nLooks like #{Sentiment.most_positive_friend} is a real ray of sunshine.\n\n"
+end
+
+def most_negative_friend
+  puts "\nIs it true that #{Sentiment.most_negative_friend} is always a bummer?\n\n"
+end
+
+def most_positive_tweet
+  puts "\nDoes this make you happy?"
+  puts "#{Sentiment.most_positive_tweet}\n\n"
+end
+
+def most_negative_tweet
+  puts "\nBack in MY day, we walked uphill everywhere we went."
+  puts "#{Sentiment.most_negative_tweet}\n\n"
+end
+
+def average_friend_sentiment
+  puts "\nThe average mood of the people you follow is:"
+  sentiment = Sentiment.get_avg_sentiment
+  puts sentiment
+  if sentiment < -0.5
+    sentiment = "dreadful"
+  elsif sentiment < 0
+    sentiment = "downer"
+  elsif sentiment < 0.5
+    sentiment = "slightly happy"
+  else
+    sentiment = "beaming"
+  end
+  puts "That means you're surrounded by #{sentiment} people."
+end
+
+def most_positive_hashtag
+  hash = Sentiment.avg_hashtag_hash
+  title = hash.find {|name, score| score == hash.values.max}[0]
+  puts "\nIf you want to be cruel, you should tweet with \##{title}.\n\n"
+end
+
+def most_negative_hashtag
+  hash = Sentiment.avg_hashtag_hash
+  title = hash.find {|name, score| score == hash.values.min}[0]
+  puts "\nTo wallow in your misery with other likeminded people, use \##{title}.\n\n"
+end
+
+
 ### FORMATTING ###
 def taste_the_rainbow(string)
   colors = [:light_magenta, :light_red, :light_yellow, :light_green, :light_cyan, :light_blue]
@@ -129,15 +195,5 @@ def taste_the_rainbow(string)
 end
 
 def number_readability(number)
-  num_array = number.to_s.split("")
-  return_array = []
-  num_array.each.with_index do |int, index|
-    nums_left = num_array.length - index
-    if nums_left % 3 == 0 && nums_left > 0
-      return_array << ",#{int}" 
-    else
-      return_array << int
-    end
-  end
-  return_array.join("")
+  number.to_s.reverse.scan(/.{1,3}/).join(",").reverse
 end
