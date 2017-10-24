@@ -121,29 +121,30 @@ def detail_user(input)
   else
     puts "Hmm... I couldn't seem to find who you were looking for."
   end
+end
   
 ### ABOUT ME ###
 def my_sentiment
-  Sentiment.get_avg_for_user(User.last)
+  Sentiment.get_avg_for_user(User.first)
 end
 
 def my_most_popular_tweet
-  user = User.last
+  user = User.first
   tweet = user.tweets.order("likes DESC").first
   puts "\nWow, a lot of people like this tweet! #{number_readability(tweet.likes)} people, to be exact."
   format_tweet(user, tweet)
 end
 
 def my_most_positive_tweet
-  tweet = User.last.tweets.order("sentiment_score DESC").first
+  tweet = User.first.tweets.order("sentiment_score DESC").first
   puts "\nDid you meet a tiny duck in boots just before you tweeted this?"
-  format_tweet(User.last, tweet)
+  format_tweet(User.first, tweet)
 end
 
 def my_most_negative_tweet
-  tweet = User.last.tweets.order("sentiment_score ASC").first
+  tweet = User.first.tweets.order("sentiment_score ASC").first
   puts "\nGeez, you didn't have to kick over my half-full glass."
-  format_tweet(User.last, tweet)
+  format_tweet(User.first, tweet)
 end
 
 ### POPULARITY ###
