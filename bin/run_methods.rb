@@ -18,6 +18,7 @@ def populate_database
   Hashtag.delete_all
   TweetHashtag.delete_all
   progress = ProgressBar.create(starting_at: 0, total: nil, length: 50)
+  TwitterApi.get_my_tweets(username)
   TwitterApi.get_user_friends(username, progress)
   TwitterApi.get_user_tweets(progress)
   Sentiment.populate_sentiment_scores(progress)
@@ -176,7 +177,8 @@ def top_ten_popular_tweets
   tweets.each do |tweet|
     user = User.find(tweet.user_id)
     puts "#{user.name}" + " @#{user.twitter_handle}".yellow
-    puts "#{tweet.content}\n"
+    puts "#{tweet.date_posted.strftime("%A, %b %d %Y")} #{tweet.date_posted.strftime("%I:%M")}"
+    puts "\n#{tweet.content}\n"
     puts "#{tweet.likes} \u{2764}"
     puts "\n-------------------------------------------------\n\n"
     sleep(0.75)

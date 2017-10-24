@@ -13,7 +13,7 @@ class TwitterApi
   def self.get_my_tweets(username)
     user = @@client.user(username)
     User.create(name: user.name, twitter_handle: user.screen_name, location: user.location, following: user.friends_count, followers: user.followers_count)
-    user_tweets = @@client.user_timeline(user[:twitter_handle])
+    user_tweets = @@client.user_timeline(username)
     user_tweets.each do |tweet|
       Tweet.create(user_id: user.id, content: tweet.text, retweets: tweet.retweet_count, likes: tweet.favorite_count)
       if !tweet.hashtags.empty?
@@ -36,14 +36,23 @@ class TwitterApi
     User.all.each do |user|
       user_tweets = @@client.user_timeline(user[:twitter_handle])
       user_tweets.each do |tweet|
-        Tweet.create(user_id: user.id, content: tweet.text, retweets: tweet.retweet_count, likes: tweet.favorite_count)
-        if !tweet.hashtags.empty?
-          tweet.hashtags.each do |hashtag|
-            TweetHashtag.create(tweet: Tweet.all.last, hashtag: Hashtag.find_or_create_by(title: hashtag.text))
-            progress.increment
-          end
-        end
+        create_tweet(user, tweet)
       end
     end
   end
+
+  def create_tweet(user, tweet)
+    Tweet.create(user_id: user.id, content: tweet.text, retweets: tweet.retweet_count, likes: tweet.favorite_count)
+    if !tweet.hashtags.empty?
+      tweet.hashtags.each do |hashtag|
+        create_hashtag(hashtag)
+        progress.increment
+      end
+    end
+  end
+
+  def create_hashtag(hashtag)
+    TweetHashtag.create(tweet: Tweet.all.last, hashtag: Hashtag.find_or_create_by(title: hashtag.text))
+  end
+
 end
