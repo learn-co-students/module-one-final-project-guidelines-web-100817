@@ -24,6 +24,8 @@ while answer != "q"
     most_popular_hashtag
   when "friend table"
     friend_table
+  when "hashtag table"
+    hashtag_table
   when "most positive friend"
     most_positive_friend
   when "most negative friend"

@@ -41,6 +41,7 @@ def help
   puts "  - most popular tweet".cyan
   puts "- Sentiment".yellow
   puts "  - friend table".cyan
+  puts "  - hashtag table".cyan
   puts "  - most positive/negative friend".cyan
   puts "  - most positive/negative tweet".cyan
   puts "  - most positive/negative hashtag".cyan
@@ -98,7 +99,13 @@ end
 ### SENTIMENT ###
 def friend_table
   puts "\nHere's a table of how positive or negative your friends are:"
-  Sentiment.sentiment_table
+  Sentiment.table(Sentiment.user_sentiment_hash)
+  puts "\n\n"
+end
+
+def hashtag_table
+  puts "\nHere's a table of how positive or negative all the hashtags are:"
+  Sentiment.table(Sentiment.avg_hashtag_hash)
   puts "\n\n"
 end
 
@@ -147,6 +154,7 @@ def most_negative_hashtag
   title = hash.find {|name, score| score == hash.values.min}[0]
   puts "\nTo wallow in your misery with other likeminded people, use \##{title}.\n\n"
 end
+
 
 ### FORMATTING ###
 def taste_the_rainbow(string)
