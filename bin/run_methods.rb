@@ -31,6 +31,12 @@ def get_user_input
     "help"
   elsif answer.match(/quit|^q/)
     "quit"
+  elsif answer.match(/((how many)|(number of)).*friends/)
+    "number of friends"
+  elsif answer.match(/((how many)|(number of)).*tweets/)
+    "number of tweets"
+  elsif answer.match(/((how many)|(number of)).*hashtags/)
+    "number of hashtags"
   elsif answer.match(/most ((popular)|(followed)) ((friend)|(person)|(account))/) || answer.match(/((friend)|(person)|(account)).*((most)|(highest number)).*((popular)|(followers))/)
     "most popular friend"
   elsif answer.match(/most ((popular)|(common)(ly)?( used)?) hashtag/)
