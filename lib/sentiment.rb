@@ -83,7 +83,7 @@ class Sentiment
     rows.each do |row_array|
       row_array << self.make_slider(row_array)
     end
-    table = Terminal::Table.new(:headings => ["Name", "Score", "Scale"], :rows => rows)
+    table = Terminal::Table.new(:headings => ["Name".yellow, "Score".yellow, "Scale".yellow], :rows => rows)
     puts table
   end
 
@@ -106,19 +106,19 @@ class Sentiment
   # end
 
   def self.make_slider(row_array)
-    str = "Negative "
+    str = "Negative ".red
     if row_array[1] > 0
       str += "-" * 10
       str += "|"
       stars = (row_array[1] * 10 ).round
-      str += ("*" * stars).colorize(:red)
+      str += ("*" * stars).colorize(:green)
       str += "-" * (10 - stars)
-      str += " Positive"
+      str += " Positive".green
     else
       stars = (-row_array[1] * 10).round
       str += "-" * (10 - stars)
-      str += ("*" * stars).colorize(:green)
-      str += "|---------- Positive"
+      str += ("*" * stars).colorize(:red)
+      str += "|---------- #{"Positive".green}"
     end
     str
   end

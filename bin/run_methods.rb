@@ -27,9 +27,9 @@ end
 def get_user_input
   print "What would you like to do? (type 'h' for help, 'q' for quit): ".light_blue
   answer = gets.chomp.downcase
-  if answer.match(/h[a|e]+lp|^h/)
+  if answer.match(/h[a|e]+lp|^h\b/)
     "help"
-  elsif answer.match(/quit|^q/)
+  elsif answer.match(/quit|^q\b|exit/)
     "quit"
   elsif answer.match(/((how many)|(number of)).*friends/)
     "number of friends"
@@ -54,22 +54,31 @@ def help
   puts "  - number of friends".cyan
   puts "  - number of tweets".cyan
   puts "  - number of hashtags".cyan
+  puts "  - detail user".cyan
   puts "- Popularity".yellow
   puts "  - most popular friend".cyan
   puts "  - most popular hashtag".cyan
   puts "  - most popular tweet".cyan
+  puts "- Relations".yellow
+  puts "  - all user tweets".cyan
+  puts "  - all user hashtags".cyan
+  puts "  - all hashtag users".cyan
+  puts "  - all hashtag tweets".cyan
+  puts "  - user's top tweets".cyan
+  puts "  - user's top hashtags".cyan
+  puts "  - hashtag's top tweets".cyan
+  puts "  - hashtag's top tweeters".cyan
   puts "- Sentiment".yellow
   puts "  - friend table".cyan
   puts "  - hashtag table".cyan
   puts "  - most positive/negative friend".cyan
   puts "  - most positive/negative tweet".cyan
   puts "  - most positive/negative hashtag".cyan
-  puts "  - average friend sentiment\n".cyan
+  puts "  - average friend sentiment".cyan
   puts "- Top 10s".yellow
-  puts "  - top 10 most tweeters"
-  puts "  - top 10 most popular friends"
-  puts "  - top 10 most popular tweets"
-  puts "  - top 10 most popular hashtags"
+  puts "  - top 10 most popular friends".cyan
+  puts "  - top 10 most popular tweets".cyan
+  puts "  - top 10 most popular hashtags\n".cyan
 end
 
 def err
@@ -95,6 +104,20 @@ def number_of_hashtags
   puts ""
 end
 
+def detail_user(input)
+  user = find_user(input)
+  if user
+    puts "Here's everything we know about #{user.name}:"
+    puts "\nname: #{user.name}"
+    puts "username: #{user.twitter_handle}"
+    puts "location: #{user.location}"
+    puts "# following: #{number_readability(user.following)}"
+    puts "# of followers: #{number_readability(user.followers)}"
+  else
+    puts "Hmm... I couldn't seem to find who you were looking for."
+  end
+end
+
 ### POPULARITY ###
 def most_popular_friend
   most_popular_friend = User.order("followers DESC").first
@@ -118,6 +141,86 @@ def most_popular_hashtag
   puts "\nThe most popular hashtag among your friends is \##{most_popular_hashtag.title}"
   puts "It has been tweeted about #{most_popular_hashtag.tweets.count} times."
   puts "The person who has tweeted it most is #{tweeters.key(tweeters.values.max)}. They have tweeted it #{tweeters.values.max} times.\n\n"
+end
+
+### RELATIONS ###
+def all_user_tweets(input)
+  user = find_user(input)
+  puts "\nHere are all the tweets from #{user.name}:\n\n"
+  user.tweets.each do |tweet|
+    puts "#{tweet.content}"
+    print "\u{2764}: #{tweet.likes}"
+    puts "\u{27F2}: #{tweet.retweets}"
+    puts "*----------------------*"
+  end
+end
+
+def all_user_hashtags(input)
+  user = find_user(input)
+  puts "\nHere are all the hashtags used by #{user.name}:\n\n"
+  user.hashtags.each do |hashtag|
+    puts "\##{hashtag.title}"
+  end
+end
+
+def all_hashtag_users(input)
+  hashtag = find_hashtag(input)
+  puts "\nHere are all the people who have tweeted about \##{hashtag.title}:\n\n"
+  hashtag.users.each do |user|
+    puts user.name
+  end
+end
+
+def all_hashtag_tweets(input)
+  hashtag = find_hashtag(input)
+  puts "\nHere are all the tweets about \##{hashtag.title}:\n\n"
+  hashtag.tweets.each do |tweet|
+    puts "#{tweet.user.name} tweeted:"
+    puts "#{tweet.content}"
+    print "\u{2764}: #{tweet.likes}"
+    puts "\u{27F2}: #{tweet.retweets}"
+    puts "*----------------------*"
+  end
+end
+
+def user_top_tweets(input)
+  user = find_user(input)
+  puts "\nHere are the top 5 tweets from #{user.name}:\n\n"
+  user.tweets.order("tweets.likes DESC").limit(5).each do |tweet|
+    puts "#{tweet.content}"
+    print "\u{2764}: #{tweet.likes}"
+    puts "\u{27F2}: #{tweet.retweets}"
+    puts "*----------------------*"
+  end
+end
+
+def user_top_hashtags(input)
+  user = find_user(input)
+  puts "\nHere are hashtags most commonly used by #{user.name}:\n\n"
+  Hashtag.joins(:tweets).where("tweets.user_id = ?", user.id).group("hashtags.title").order("count(hashtags.title) DESC").each do |hashtag|
+    puts "\##{hashtag.title}: #{Hashtag.joins(:tweets).where("hashtags.id = #{hashtag.id}").count}"
+  end
+  puts ""
+end
+
+def hashtag_top_tweets(input)
+  hashtag = find_hashtag(input)
+  puts "\nHere are the most popular tweets about \##{hashtag.title}:\n\n"
+  hashtag.tweets.order("tweets.likes DESC").each do |tweet|
+    puts "#{tweet.user.name} tweeted:"
+    puts "#{tweet.content}"
+    print "\u{2764}: #{tweet.likes}"
+    puts "\u{27F2}: #{tweet.retweets}"
+    puts "*----------------------*"
+  end
+end
+
+def hashtag_top_users(input)
+  hashtag = find_hashtag(input)
+  User.joins(tweets: [:tweet_hashtags]).where("tweet_hashtags.hashtag_id = 335").group("users.id").order("count(users.id) DESC").each do |user|
+    puts "\##{user.name}: #{User.joins(tweets: [:tweet_hashtags]).where("tweet_hashtags.hashtag_id = #{hashtag.id}").count}"
+  end
+  puts ""
 end
 
 ### SENTIMENT ###
@@ -180,7 +283,7 @@ def most_negative_hashtag
 end
 
 
-### FORMATTING ###
+### HELPERS ###
 def taste_the_rainbow(string)
   colors = [:light_magenta, :light_red, :light_yellow, :light_green, :light_cyan, :light_blue]
   color_index = 0
@@ -197,3 +300,15 @@ end
 def number_readability(number)
   number.to_s.reverse.scan(/.{1,3}/).join(",").reverse
 end
+
+def find_user(input)
+  input.start_with?("@") ? User.find_by(twitter_handle: input) : User.find_by(name: input)
+end
+
+def find_hashtag(input)
+  input.start_with?("#") ? Hashtag.find_by(title: input.split("")[1..-1].join("")) : Hashtag.find_by(title: input)
+end
+
+
+
+# Hashtag.joins(:tweets).where("tweets.user_id = ?", user.id).group("hashtags.title").order("count(hashtags.title) DESC")
