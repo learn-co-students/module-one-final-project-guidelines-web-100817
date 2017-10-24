@@ -111,13 +111,13 @@ class Sentiment
       str += "-" * 10
       str += "|"
       stars = (row_array[1] * 10 ).round
-      str += "*" * stars
+      str += ("*" * stars).colorize(:red)
       str += "-" * (10 - stars)
       str += " Positive"
     else
       stars = (-row_array[1] * 10).round
       str += "-" * (10 - stars)
-      str += "*" * stars
+      str += ("*" * stars).colorize(:green)
       str += "|---------- Positive"
     end
     str

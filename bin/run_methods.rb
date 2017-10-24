@@ -46,6 +46,11 @@ def help
   puts "  - most positive/negative tweet".cyan
   puts "  - most positive/negative hashtag".cyan
   puts "  - average friend sentiment\n".cyan
+  puts "- Top 10s".yellow
+  puts "  - top 10 most tweeters"
+  puts "  - top 10 most popular friends"
+  puts "  - top 10 most popular tweets"
+  puts "  - top 10 most popular hashtags"
 end
 
 def err
