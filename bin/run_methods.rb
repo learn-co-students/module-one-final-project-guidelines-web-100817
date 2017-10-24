@@ -96,7 +96,7 @@ end
 
 ### BASICS ###
 def number_of_friends
-  puts "\nYou have #{User.all.count} friends. Not so bad. Could be better. You should get out more.\n\n"
+  puts "\nYou have #{User.all.count - 1} friends. Not so bad. Could be better. You should get out more.\n\n"
 end
 
 def number_of_tweets
