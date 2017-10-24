@@ -1,3 +1,5 @@
+input = nil
+
 def greet
   puts "\nHello there! Welcome to our friendly Twitter CLI.".colorize(:yellow)
   taste_the_rainbow("All your base are belong to us")
@@ -27,23 +29,37 @@ end
 
 def get_user_input
   print "What would you like to do? (type 'h' for help, 'q' for quit): ".light_blue
-  answer = gets.chomp.downcase
+  answer = gets.chomp
   if answer.match(/h[a|e]+lp|^h\b/)
     "help"
   elsif answer.match(/quit|^q\b|exit/)
     "quit"
+  ### BASICS ###
   elsif answer.match(/((how many)|(number of)).*friends/)
     "number of friends"
   elsif answer.match(/((how many)|(number of)).*tweets/)
     "number of tweets"
   elsif answer.match(/((how many)|(number of)).*hashtags/)
     "number of hashtags"
-  elsif answer.match(/most ((popular)|(followed)) ((friend)|(person)|(account))/) || answer.match(/((friend)|(person)|(account)).*((most)|(highest number)).*((popular)|(followers))/)
+  elsif answer.match(/(detail).+for (.+)/)
+    $input = answer.match(/(detail).+for (.+)/).captures[1]
+    "get details for user"
+  ### ABOUT ME ###
+  elsif answer.match(/my most ((popular)|(followed)) ((friend)|(person)|(account))/ && !answer.match(/\d/)
+    "my most popular friend"
+  elsif (answer.match(/my most ((popular)|(liked)) tweet/) || answer.match(/my.*tweet.*most.*like/)) && !answer.match(/\d/)
+    "my most popular tweet"
+  elsif answer.match(/my most ((popular)|(common)(ly)?( used)?) hashtag/) && !answer.match(/\d/)
+    "my most popular hashtag"
+  ### POPULARITY ###
+  elsif (answer.match(/most ((popular)|(followed)) ((friend)|(person)|(account))/) || answer.match(/((friend)|(person)|(account)).*((most)|(highest number)).*((popular)|(followers))/)) && !answer.match(/\d/)
     "most popular friend"
-  elsif answer.match(/most ((popular)|(common)(ly)?( used)?) hashtag/)
+  elsif answer.match(/most ((popular)|(common)(ly)?( used)?) hashtag/) && !answer.match(/\d/)
     "most popular hashtag"
-  elsif answer.match(/most ((popular)|(liked)) tweet/) || answer.match(/tweet.*most.*like/)
+  elsif (answer.match(/most ((popular)|(liked)) tweet/) || answer.match(/tweet.*most.*like/)) && !answer.match(/\d/)
     "most popular tweet"
+  ### RELATIONS ##
+  
   else
     answer
   end
@@ -55,7 +71,7 @@ def help
   puts "  - number of friends".cyan
   puts "  - number of tweets".cyan
   puts "  - number of hashtags".cyan
-  puts "  - detail user".cyan
+  puts "  - get details for user".cyan
   puts "- About Me".yellow
   puts "  - my sentiment score".cyan
   puts "  - my most positive/negative tweet".cyan
@@ -109,8 +125,8 @@ def number_of_hashtags
   puts ""
 end
 
-def detail_user(input)
-  user = find_user(input)
+def get_details_for_user
+  user = find_user($input)
   if user
     puts "Here's everything we know about #{user.name}:"
     puts "\nname: #{user.name}"
@@ -184,8 +200,8 @@ def most_popular_hashtag
 end
 
 ### RELATIONS ###
-def all_user_tweets(input)
-  user = find_user(input)
+def all_user_tweets
+  user = find_user($input)
   puts "\nHere are all the tweets from #{user.name}:\n\n"
   user.tweets.each do |tweet|
     puts "#{tweet.content}"
@@ -195,24 +211,24 @@ def all_user_tweets(input)
   end
 end
 
-def all_user_hashtags(input)
-  user = find_user(input)
+def all_user_hashtags
+  user = find_user($input)
   puts "\nHere are all the hashtags used by #{user.name}:\n\n"
   user.hashtags.each do |hashtag|
     puts "\##{hashtag.title}"
   end
 end
 
-def all_hashtag_users(input)
-  hashtag = find_hashtag(input)
+def all_hashtag_users
+  hashtag = find_hashtag($input)
   puts "\nHere are all the people who have tweeted about \##{hashtag.title}:\n\n"
   hashtag.users.each do |user|
     puts user.name
   end
 end
 
-def all_hashtag_tweets(input)
-  hashtag = find_hashtag(input)
+def all_hashtag_tweets
+  hashtag = find_hashtag($input)
   puts "\nHere are all the tweets about \##{hashtag.title}:\n\n"
   hashtag.tweets.each do |tweet|
     puts "#{tweet.user.name} tweeted:"
@@ -223,8 +239,8 @@ def all_hashtag_tweets(input)
   end
 end
 
-def user_top_tweets(input)
-  user = find_user(input)
+def user_top_tweets
+  user = find_user($input)
   puts "\nHere are the top 5 tweets from #{user.name}:\n\n"
   user.tweets.order("tweets.likes DESC").limit(5).each do |tweet|
     puts "#{tweet.content}"
@@ -234,8 +250,8 @@ def user_top_tweets(input)
   end
 end
 
-def user_top_hashtags(input)
-  user = find_user(input)
+def user_top_hashtags
+  user = find_user($input)
   puts "\nHere are hashtags most commonly used by #{user.name}:\n\n"
   Hashtag.joins(:tweets).where("tweets.user_id = ?", user.id).group("hashtags.title").order("count(hashtags.title) DESC").each do |hashtag|
     puts "\##{hashtag.title}: #{Hashtag.joins(:tweets).where("hashtags.id = #{hashtag.id}").count}"
@@ -243,8 +259,8 @@ def user_top_hashtags(input)
   puts ""
 end
 
-def hashtag_top_tweets(input)
-  hashtag = find_hashtag(input)
+def hashtag_top_tweets
+  hashtag = find_hashtag($input)
   puts "\nHere are the most popular tweets about \##{hashtag.title}:\n\n"
   hashtag.tweets.order("tweets.likes DESC").each do |tweet|
     puts "#{tweet.user.name} tweeted:"
@@ -255,8 +271,8 @@ def hashtag_top_tweets(input)
   end
 end
 
-def hashtag_top_users(input)
-  hashtag = find_hashtag(input)
+def hashtag_top_users
+  hashtag = find_hashtag($input)
   User.joins(tweets: [:tweet_hashtags]).where("tweet_hashtags.hashtag_id = 335").group("users.id").order("count(users.id) DESC").each do |user|
     puts "\##{user.name}: #{User.joins(tweets: [:tweet_hashtags]).where("tweet_hashtags.hashtag_id = #{hashtag.id}").count}"
   end
@@ -373,7 +389,7 @@ def number_readability(number)
 end
 
 def find_user(input)
-  input.start_with?("@") ? User.find_by(twitter_handle: input) : User.find_by(name: input)
+  input.start_with?("@") ? User.find_by(twitter_handle: input.split("")[1..-1].join("")) : User.find_by(name: input)
 end
 
 def find_hashtag(input)

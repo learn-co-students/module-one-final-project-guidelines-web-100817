@@ -10,12 +10,15 @@ while answer != "q"
     help
   when "quit"
     break
+  ### BASICS ###
   when "number of friends"
     number_of_friends
   when "number of tweets"
     number_of_tweets
   when "number of hashtags"
     number_of_hashtags
+  when "get details for user"
+    get_details_for_user
   when "most popular friend"
     most_popular_friend
   when "most popular tweet"
