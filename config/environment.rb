@@ -1,14 +1,16 @@
 require 'bundler'
 Bundler.require
 
-require 'rake'
+# require 'rake'
 require 'active_record'
-require 'yaml/store'
-require 'ostruct'
-# require 'date'
+# require 'yaml/store'
+# require 'ostruct'
+# # require 'date'
 #
-Dir[File.join(File.dirname(__FILE__), "../app/models", "*.rb")].each {|f| require f}
+# Dir[File.join(File.dirname(__FILE__), "../app/models", "*.rb")].each {|f| require f}
 # Dir[File.join(File.dirname(__FILE__), "../lib", "*.rb")].each {|f| require f}
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/development.db')
+ActiveRecord::Base.logger = nil
 require_all 'lib'
+require_all 'app'

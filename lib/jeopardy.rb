@@ -1,4 +1,30 @@
+# require_relative './question.rb'
 require 'pry'
+
+class User
+  attr_accessor :user_name, :scores, :high_score
+  @@all = []
+
+  def initialize(user_name)
+    @user_name = user_name
+    @scores = []
+    @high_score = scores.max
+  end
+
+end
+
+
+def find_or_create_user
+  puts "Are you a new user or returning?"
+  answer = get_user_input
+
+  if answer == "new"
+
+  elsif answer == "returning"
+    
+
+end
+
 def welcome
   puts "Welcome to Jeopardy. My name is Alex Trebek.
         Would you like to play a round, or would you like to hear some trivia?
@@ -22,41 +48,78 @@ def trivia
   puts ""
 end
 
+
+def filter
+  loop do
+    single_question = Question.find(rand(1..99))
+    unless single_question["question"] == "" || iterate_symbols(single_question["answer"]) || single_question["value_id"] != 1
+      return single_question
+      break
+    end
+  end
+end
+
+
+def iterate_symbols(singleQuestion)
+  symbols = ";:.>,</?!@#$%^&*}{+=-_~`[]|'".split("")
+  symbols.each do |ele|
+    if singleQuestion.include?(ele)
+      return true
+    end
+  end
+  return false
+end
+
+
+
+# def ask_question
+#   thing = Question.all.sample
+#   puts question = thing["question"]
+#   answer = thing["answer"]
+#   user_answer = get_user_input
+#   if user_answer.downcase == answer.downcase
+#     puts "Correct!"
+#     winnings += thing.value.value
+#   else
+#     puts "Wrong!"
+#   end
+#   winnings
+# end
+
 def ask_question
   winnings = 0
-  thing = Question.all[0]
+  thing = filter
   puts question = thing["question"]
   answer = thing["answer"]
   user_answer = get_user_input
   if user_answer.downcase == answer.downcase
-    puts "Correct!"
-    winnings += thing["value_id"]
+    winnings += thing.value.value
+    puts "Correct!
+    "
   else
-    puts "Wrong!"
+    puts "Wrong! The correct answer is #{answer}.
+    "
   end
   winnings
 end
 
-def player
 
+def player
+  tot_winnings = 0
   counter = 0
   while counter < 5
-    ask_question
+    winnings = ask_question
+    tot_winnings += winnings
     counter += 1
   end
-
+  tot_winnings
+  puts "Your winnings add up to $#{tot_winnings}"
 end
 
-
-
-def display_score(winnings)
-  puts "Your winnings add up to $#{winnings}"
-  score
-end
 
 
 def prompt_user
-  puts "Would you like to play another round? Type 'yes' or 'no'"
+  puts "Would you like to play another round? Please type 'yes' or 'no'"
     answer = get_user_input
   if answer == "yes"
     player
@@ -68,7 +131,6 @@ end
 def runner
   welcome
   pick_your_path
-  display_score
   prompt_user
 end
 
