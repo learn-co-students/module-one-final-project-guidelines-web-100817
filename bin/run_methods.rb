@@ -100,6 +100,9 @@ def help
   puts "  - top 10 most popular friends".cyan
   puts "  - top 10 most popular tweets".cyan
   puts "  - top 10 most popular hashtags\n".cyan
+  puts "- All Info".yellow
+  puts "  - all user info"
+  puts "  - all hashtag info"
 end
 
 def err
@@ -172,6 +175,20 @@ def my_most_negative_tweet
   tweet = User.first.tweets.order("sentiment_score ASC").first
   puts "\nGeez, you didn't have to kick over my half-full glass."
   format_tweet(User.first, tweet)
+end
+
+def my_average_tweeting_time
+  user = User.first
+  time1 = user.tweets.last.date_posted
+  time2 = user.tweets.first.date_posted
+  avg = (((time2 - time1) / 1.hour).round) / user.tweets.length
+  if avg < 10
+    puts "\nWow, looks you only wait an average of #{avg} hours between tweets. Needy much?"
+  elsif avg < 24
+    puts "\nYou tweet, on average, once every #{avg} hours."
+  else
+    puts "\nYou only tweet once every #{avg} hours. You should probably tweet more if you want people to care."
+  end
 end
 
 ### POPULARITY ###
@@ -369,6 +386,22 @@ def top_ten_popular_hashtags
   puts table
 end
 
+### ALL INFO ###
+def all_user_info
+  rows = User.all.order(:name).inject([]) do |memo, user|
+    memo << [user.name, "@#{user.twitter_handle}", user.location, number_readability(user.following), number_readability(user.followers)]
+  end
+  table = Terminal::Table.new(:headings => ["Name".yellow, "Twitter Handle".yellow, "Location".yellow, "Following".yellow, "Followers".yellow], :rows => rows)
+  puts table
+end
+
+def all_hashtag_info
+  rows = Hashtag.all.order(:title).inject([]) do |memo, hashtag|
+    memo << ["\##{hashtag.title}", hashtag.tweets.count]
+  end
+  table = Terminal::Table.new(:headings => ["Title".yellow, "\# of Tweets"], :rows => rows)
+  puts table
+end
 
 ### HELPERS ###
 def taste_the_rainbow(string)
