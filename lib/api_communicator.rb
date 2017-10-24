@@ -10,18 +10,27 @@ def iterator
 
 
   #
-  while counter < 300 do
+  while counter < 100 do
     all_clues = RestClient.get('http://jservice.io/api/clues', {params:{offset: counter}}) #array 0 thru counter
     clues = JSON.parse(all_clues)
     newData << clues
     counter += 100
   end
   # binding.pry
-  fullData = JSON.pretty_generate(newData.flatten)
+  fullData = newData.flatten
+  fullData.each do |obj|
+    category = Category.find_or_create_by(name: obj["category"]["title"])
+    value = Value.find_or_create_by(value: obj["value"])
+    question = Question.find_or_create_by(question: obj["question"], answer: obj["answer"], category: category, value: value, date: obj["airdate"])
+    binding.pry
+  end
+
 
 end
 
+
 iterator
+
 
 ## BONUS
 
