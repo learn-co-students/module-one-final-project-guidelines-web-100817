@@ -87,24 +87,6 @@ class Sentiment
     puts table
   end
 
-  # def self.sentiment_table
-  #   rows = self.get_sentiment_array
-  #   rows.each do |row_array|
-  #     row_array << self.make_slider(row_array)
-  #   end
-  #   table = Terminal::Table.new(:headings => ["Name", "Score", "Scale"], :rows => rows)
-  #   puts table
-  # end
-  #
-  # def self.hashtag_table
-  #   rows = self.get_hashtag_array
-  #   rows.each do |row_array|
-  #     row_array << self.make_slider(row_array)
-  #   end
-  #   table = Terminal::Table.new(:headings => ["Name", "Score", "Scale"], :rows => rows)
-  #   puts table
-  # end
-
   def self.make_slider(row_array)
     str = "Negative ".red
     if row_array[1] > 0
