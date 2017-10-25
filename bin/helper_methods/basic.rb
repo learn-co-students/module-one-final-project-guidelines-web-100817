@@ -19,6 +19,7 @@ def get_details_for_user(input)
     puts "\nHere's everything there is to know about #{user.name.light_green}:"
     puts "\n#{"name:".cyan} #{user.name}"
     puts "#{"username:".cyan} @#{user.twitter_handle}"
+    puts "#{"description:".cyan} #{user.description}" 
     puts "#{"location:".cyan} #{user.location}"
     puts "#{"# of tweets:".cyan} #{number_readability(User.first.tweet_count)}"
     puts "#{"# following:".cyan} #{number_readability(user.following)}"

@@ -3,6 +3,7 @@ def my_details
   puts "\nHere's everything there is to know about you:"
   puts "\n#{"name:".cyan} #{User.first.name}"
   puts "#{"username:".cyan} @#{User.first.twitter_handle}"
+  puts "#{"description:".cyan} #{User.first.description}" 
   puts "#{"location:".cyan} #{User.first.location}"
   puts "#{"# of tweets:".cyan} #{number_readability(User.first.tweet_count)}"
   puts "#{"# following:".cyan} #{number_readability(User.first.following)}"
