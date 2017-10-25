@@ -142,7 +142,6 @@ def get_user_input
       answer.match(/hashtags does((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)(?:(?:tweet)|(?:use)).*most?/)) ||
       answer.match(/hashtags.*most.*(?:(?:tweet)|(?:use)).*by((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)\?/)) ||
       answer.match(/hashtags.*(?:(?:tweet)|(?:use)).*most.*by ((?:(?:[A-Z])|(?:@)).+(?:(?:\s\w+))?)\?/)
-      binding.pry
       user_top_hashtags(input)
     elsif
       answer.match(/most (?:(?:liked)|(?:popular)) tweets.*((?:(?:#)|(?:[A-Z])).+)/)
