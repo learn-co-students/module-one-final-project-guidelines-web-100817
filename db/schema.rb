@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 7) do
 
   create_table "hashtags", force: :cascade do |t|
     t.string "title"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 6) do
     t.string "location"
     t.integer "following"
     t.integer "followers"
+    t.string "description"
+    t.integer "tweet_count"
   end
 
 end
