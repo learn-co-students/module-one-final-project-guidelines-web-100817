@@ -33,4 +33,6 @@ def format_tweet(user, tweet)
   print "\u{2764} #{tweet.likes}"
   print "   "
   puts "\u{27F2} #{tweet.retweets}"
+  puts "\n*----------------------------------------------*\n\n"
+  sleep(0.5)
 end
