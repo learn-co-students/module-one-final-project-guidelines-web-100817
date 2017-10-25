@@ -9,16 +9,19 @@ To run this on your local computer, you will need keys for Google's Natural Lang
 ### Prerequisites
 
 If you want to use this code locally, you must:
+
   1. Sign up to use Google's Cloud APIs. You can do this [here](https://cloud.google.com/apis/).
   2. Create a new application and get your own set of keys for Google Natural Languge.
   3. Download and install Google Cloud SDK, found [here](https://cloud.google.com/sdk/).
   4. Set your environment variable in your Bash Profile as detailed [here](https://cloud.google.com/natural-language/docs/auth).
+  5. Register as a developer with Twitter [here](https://apps.twitter.com/)
+  6. Create a new Twitter application and put the keys in config/application.yml
 
 ### Installing
 
 Fork and clone this repo, and edit this line to your project_id in lib/sentiment.rb :
 
-```
+```Ruby
 class Sentiment
   def self.get_sentiment_score
   ...
@@ -32,7 +35,7 @@ To make sure your Google Cloud authentication is working, make a quick new repos
 
 Simply run the following command to start our application:
 
-```
+```Bash
 ruby bin/run.rb
 ```
 

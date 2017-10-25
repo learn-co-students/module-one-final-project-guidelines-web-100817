@@ -244,7 +244,8 @@ def help
   puts "  - my sentiment score".cyan
   puts "  - my most positive/negative tweet".cyan
   puts "  - my most popular tweet".cyan
-  puts "  = my most common hashtag".cyan
+  puts "  - my most common hashtag".cyan
+  puts "  - my average tweeting time"
   puts "- Popularity".yellow
   puts "  - most popular friend".cyan
   puts "  - most popular hashtag".cyan
