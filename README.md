@@ -1,49 +1,57 @@
-# Module One Final Project Guidelines
+# Twitter Dashboard
 
-Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
+Twitter Dashboard is a command line application that provides a wide variety of tools to analyze and parse data about your own twitter account and the people you follow. We use Twitter's API to grab people you follow and a selection of their tweets, and utilize Google's Natural Language API to perform sentiment analysis - this means that you can see which of your friends/tweets/hashtags is the most positive or negative, as well as much more. We've also tried to make user input feel as natural as possible - there are multiple ways to ask the same thing and return the same data.
 
-For your final project, we'll be building a Command Line database application.
+## Getting Started
 
-## Project Requirements
+To run this on your local computer, you will need keys for Google's Natural Language API. If you'd like to use our keys, please email us for further inquiries. Otherwise, the links below should help you set up your own keys and clone this repo locally.
 
-### Option One - Data Analytics Project
+### Prerequisites
 
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have at minimum three models including one join model. This means you must have a many-to-many relationship.
-3. You should seed your database using data that you collect either from a CSV, a website by scraping, or an API.
-4. Your models should have methods that answer interesting questions about the data. For example, if you've collected info about movie reviews, what is the most popular movie? What movie has the most reviews?
-5. You should provide a CLI to display the return values of your interesting methods.  
-6. Use good OO design patterns. You should have separate classes for your models and CLI interface.
+If you want to use this code locally, you must:
+  1. Sign up to use Google's Cloud APIs. You can do this [here](https://cloud.google.com/apis/).
+  2. Create a new application and get your own set of keys for Google Natural Languge.
+  3. Download and install Google Cloud SDK, found [here](https://cloud.google.com/sdk/).
+  4. Set your environment variable in your Bash Profile as detailed [here](https://cloud.google.com/natural-language/docs/auth).
 
-### Option Two - Command Line CRUD App
+### Installing
 
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have a minimum of three models.
-3. You should build out a CLI to give your user full CRUD ability for at least one of your resources. For example, build out a command line To-Do list. A user should be able to create a new to-do, see all todos, update a todo item, and delete a todo. Todos can be grouped into categories, so that a to-do has many categories and categories have many to-dos.
-4. Use good OO design patterns. You should have separate models for your runner and CLI interface.
+Fork and clone this repo, and edit this line to your project_id in lib/sentiment.rb :
 
-### Brainstorming and Proposing a Project Idea
+```
+class Sentiment
+  def self.get_sentiment_score
+  ...
+  project_id = ENTER YOUR PROJECT NAME HERE
+  ...
+```
 
-Projects need to be approved prior to launching into them, so take some time to brainstorm project options that will fulfill the requirements above.  You must have a minimum of four [user stories](https://en.wikipedia.org/wiki/User_story) to help explain how a user will interact with your app.  A user story should follow the general structure of `"As a <role>, I want <goal/desire> so that <benefit>"`. In example, if we were creating an app to randomly choose nearby restaurants on Yelp, we might write:
+Make sure you run ```bundle install``` before continuing.
 
-* As a user, I want to be able to enter my name to retrieve my records
-* As a user, I want to enter a location and be given a random nearby restaurant suggestion
-* As a user, I should be able to reject a suggestion and not see that restaurant suggestion again
-* As a user, I want to be able to save to and retrieve a list of favorite restaurant suggestions
+To make sure your Google Cloud authentication is working, make a quick new repository and follow the guide found [here](https://cloud.google.com/natural-language/docs/quickstart-client-libraries). If everything is all good, you should be ready to rumble!
 
-## Instructions
+Simply run the following command to start our application:
 
-1. Fork and clone this repository.
-2. Build your application. Make sure to commit early and commit often. Commit messages should be meaningful (clearly describe what you're doing in the commit) and accurate (there should be nothing in the commit that doesn't match the description in the commit message). Good rule of thumb is to commit every 3-7 mins of actual coding time. Most of your commits should have under 15 lines of code and a 2 line commit is perfectly acceptable.
-3. Make sure to create a good README.md with a short description, install instructions, a contributors guide and a link to the license for your code.
-4. Make sure your project checks off each of the above requirements.
-5. Prepare a video demo (narration helps!) describing how a user would interact with your working project.
-    * The video should:
-      - Have an overview of your project.(2 minutes max)
-6. Prepare a presentation to follow your video.(3 minutes max)
-    * Your presentation should:
-      - Describe something you struggled to build, and show us how you ultimately implemented it in your code.
-      - Discuss 3 things you learned in the process of working on this project.
-      - Address, if anything, what you would change or add to what you have today?
-      - Present any code you would like to highlight.   
-7. *OPTIONAL, BUT RECOMMENDED*: Write a blog post about the project and process.
+```
+ruby bin/run.rb
+```
+
+## Built With
+
+* [Google Natural Language](https://cloud.google.com/natural-language/) - Text Analysis
+* [Twitter Ruby Gem](https://github.com/sferik/twitter) - A Ruby Interface to the Twitter API
+* [ICanHazDadJoke](https://icanhazdadjoke.com/) - A Joke for Any Occasion
+* [Cat Facts](https://catfact.ninja/) - All You Ever Wanted to Know About Cats
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https:FIXURL HERE) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Authors
+
+* [Dakota Lillie](https://github.com/dakotalillie)
+* [Shirley Lin](https://github.com/slin12)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
