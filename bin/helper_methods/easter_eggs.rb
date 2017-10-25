@@ -33,5 +33,5 @@ def random_cat_fact
   end
   doc = JSON.parse(response.body)
   puts "Did you know..."
-  puts doc["fact"]
+  puts "\u{1F431} #{doc["fact"]}"
 end

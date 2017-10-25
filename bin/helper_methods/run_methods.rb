@@ -38,10 +38,10 @@ def get_user_input
   loop do
     print "What would you like to do? (type 'h' for help, 'q' for quit): ".light_blue
     answer = gets.chomp
-    if 
+    if
       answer.match(/h[a|e]+lp|^h\b/)
       help
-    elsif 
+    elsif
       answer.match(/quit|^q\b|exit/)
       goodbye
       break
@@ -51,13 +51,13 @@ def get_user_input
     elsif 
       answer.match(/((how many)|(number of)).*friends/)
       number_of_friends
-    elsif 
+    elsif
       answer.match(/((how many)|(number of)).*tweets/)
       number_of_tweets
-    elsif 
+    elsif
       answer.match(/((how many)|(number of)).*hashtags/)
       number_of_hashtags
-    elsif 
+    elsif
       answer.match(/(detail).+for (.+)/)
       input = answer.match(/(detail).+for (.+)/)
       get_details_for_user(input)
@@ -67,18 +67,18 @@ def get_user_input
     elsif 
       answer.match(/my sentiment score/)
       my_sentiment_score
-    elsif 
+    elsif
       (answer.match(/my most ((popular)|(liked)) tweet/) || answer.match(/my.*tweet.*most.*like/)) && !answer.match(/\d/)
       my_most_popular_tweet
-    elsif 
+    elsif
       answer.match(/my.*most.*positive.*tweet/) || answer.match(/my.*tweet.*most.*positive/)
       my_most_positive_tweet
-    elsif 
-      answer.match(/my.*most.*negative.*tweet/) || 
+    elsif
+      answer.match(/my.*most.*negative.*tweet/) ||
       answer.match(/my.*tweet.*most.*negative/)
       my_most_negative_tweet
-    elsif 
-      answer.match(/my most ((popular)|(common)(ly)?( used)?) hashtag/) && 
+    elsif
+      answer.match(/my most ((popular)|(common)(ly)?( used)?) hashtag/) &&
       !answer.match(/\d/)
       my_most_common_hashtag
 
@@ -89,13 +89,13 @@ def get_user_input
       answer.match(/((friend)|(person)|(account)).*((most)|(highest number)).*((popular)|(followers))/)) && 
       !answer.match(/\d/)
       most_popular_friend
-    elsif 
-      answer.match(/most ((popular)|(common)(ly)?( used)?) hashtag/) && 
+    elsif
+      answer.match(/most ((popular)|(common)(ly)?( used)?) hashtag/) &&
       !answer.match(/\d/)
       most_popular_hashtag
-    elsif 
-      (answer.match(/most ((popular)|(liked)) tweet$/) || 
-      answer.match(/tweet.*most.*like.{1,2}$/)) && 
+    elsif
+      (answer.match(/most ((popular)|(liked)) tweet$/) ||
+      answer.match(/tweet.*most.*like.{1,2}$/)) &&
       !answer.match(/\d/)
       most_popular_tweet
 
@@ -104,18 +104,18 @@ def get_user_input
     elsif 
       answer.match(/all (of )?(.+)'s tweets/) || 
       answer.match(/all tweets (.*)((from)|(by)) (.*)/)
-      input = 
-      answer.match(/all (of )?(.+)'s tweets/) || 
+      input =
+      answer.match(/all (of )?(.+)'s tweets/) ||
       answer.match(/all tweets (.*)((from)|(by)) (.*)/)
       all_user_tweets(input)
     elsif answer.match(/all (of )?(.+)'s hashtags/) || answer.match(/all hashtags .*by (.*)/)
       input = answer.match(/all (of )?(.+)'s hashtags/) || answer.match(/all hashtags .*by (.*)/)
       all_user_hashtags(input)
-    elsif 
-      answer.match(/(A|a)ll.*tweets.*#(.*)/) || 
+    elsif
+      answer.match(/(A|a)ll.*tweets.*#(.*)/) ||
       answer.match(/((tweeting)|(saying)).*#(.*)/)
-      input = 
-      answer.match(/(A|a)ll.*tweets.*#(.*)/) || 
+      input =
+      answer.match(/(A|a)ll.*tweets.*#(.*)/) ||
       answer.match(/((tweeting)|(saying)).*#(.*)/)
       all_hashtag_tweets(input)
     elsif 
@@ -125,23 +125,23 @@ def get_user_input
       answer.match(/(A|a)ll.*((users)|(people)|(accounts)).*((hashtag )|(#))(.*)/) || 
       answer.match(/(E|e)veryone.*((about )|(#))(.*)/)
       all_hashtag_users(input)
-    elsif 
-      answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s (?:(?:top)|(?:most popular)|(?:most liked)) tweets/) || 
+    elsif
+      answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s (?:(?:top)|(?:most popular)|(?:most liked)) tweets/) ||
       answer.match(/(?:(?:top)|(?:most popular)|(?:most liked)) tweets (?:(?:by)|(?:from)) (.*)/)
-      input = 
-      answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s (?:(?:top)|(?:most popular)|(?:most liked)) tweets/) || 
+      input =
+      answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s (?:(?:top)|(?:most popular)|(?:most liked)) tweets/) ||
       answer.match(/(?:(?:top)|(?:most popular)|(?:most liked)) tweets (?:(?:by)|(?:from)) (.*)/)
       user_top_tweets(input)
-    elsif 
+    elsif
       ((answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s most common(?:ly used)? hashtags/) || # What are <name>'s most commonly used hashtags?
       answer.match(/hashtags does((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)(?:(?:tweet)|(?:use)).*most?/)) || # What hashtags does <name> use the most?
       answer.match(/hashtags.*most.*(?:(?:tweet)|(?:use)).*by((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)\?/)) || # What are the hashtags most commonly tweeted by <name>?
       answer.match(/hashtags.*(?:(?:tweet)|(?:use)).*most.*by ((?:(?:[A-Z])|(?:@)).+(?:(?:\s\w+))?)\?/) # What hashtags are used most by <name>
-      input = 
+      input =
       ((answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s most common(?:ly used)? hashtags/) ||
-      answer.match(/hashtags does((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)(?:(?:tweet)|(?:use)).*most?/)) || 
-      answer.match(/hashtags.*most.*(?:(?:tweet)|(?:use)).*by((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)\?/)) || 
-      answer.match(/hashtags.*(?:(?:tweet)|(?:use)).*most.*by ((?:(?:[A-Z])|(?:@)).+(?:(?:\s\w+))?)\?/) 
+      answer.match(/hashtags does((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)(?:(?:tweet)|(?:use)).*most?/)) ||
+      answer.match(/hashtags.*most.*(?:(?:tweet)|(?:use)).*by((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)\?/)) ||
+      answer.match(/hashtags.*(?:(?:tweet)|(?:use)).*most.*by ((?:(?:[A-Z])|(?:@)).+(?:(?:\s\w+))?)\?/)
       binding.pry
       user_top_hashtags(input)
     elsif
