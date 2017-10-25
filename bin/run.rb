@@ -65,6 +65,8 @@ while answer != "q"
     all_hashtag_info
   when "tell me a joke"
     random_joke
+  when "cat"
+    random_cat_fact
   else
     err
   end
