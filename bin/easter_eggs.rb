@@ -1,6 +1,7 @@
 require 'net/http'
 require 'uri'
 require 'json'
+require 'httparty'
 
 def random_joke
   uri = URI.parse("https://icanhazdadjoke.com/")

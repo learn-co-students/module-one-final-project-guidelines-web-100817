@@ -46,3 +46,9 @@ def my_average_tweeting_time
     puts "\nYou only tweet once every #{avg} hours. You should probably tweet more if you want people to care."
   end
 end
+
+  def my_most_popular_hashtag
+    user = User.first
+    hashtag = Hashtag.joins(:tweets).where("tweets.user_id = ?", user.id).group("hashtags.title").order("count(hashtags.title) DESC").first
+    puts "Your most used hashtag is \##{hashtag.title}. You've tweeted about it #{user.tweet_hashtags.where("hashtag_id = ?", hashtag.id).count} times."
+  end

@@ -76,6 +76,7 @@ def help
   puts "  - my sentiment score".cyan
   puts "  - my most positive/negative tweet".cyan
   puts "  - my most popular tweet".cyan
+  puts "  = my most common hashtag".cyan
   puts "- Popularity".yellow
   puts "  - most popular friend".cyan
   puts "  - most popular hashtag".cyan
@@ -90,8 +91,8 @@ def help
   puts "  - hashtag's top tweets".cyan
   puts "  - hashtag's top tweeters".cyan
   puts "- Sentiment".yellow
-  puts "  - friend table".cyan
-  puts "  - hashtag table".cyan
+  puts "  - friends table".cyan
+  puts "  - hashtags table".cyan
   puts "  - most positive/negative friend".cyan
   puts "  - most positive/negative tweet".cyan
   puts "  - most positive/negative hashtag".cyan
@@ -99,10 +100,10 @@ def help
   puts "- Top 10s".yellow
   puts "  - top 10 most popular friends".cyan
   puts "  - top 10 most popular tweets".cyan
-  puts "  - top 10 most popular hashtags\n".cyan
+  puts "  - top 10 most popular hashtags".cyan
   puts "- All Info".yellow
   puts "  - all user info"
-  puts "  - all hashtag info"
+  puts "  - all hashtag info\n"
 end
 
 def err

@@ -1,5 +1,5 @@
 ### TOP 10 ###
-def top_ten_popular_friends
+def top_ten_most_popular_friends
   users = User.order("users.followers DESC").take(10)
   rows = users.inject([]) do |memo, user|
     memo << [user.name, user.twitter_handle, number_readability(user.followers)]
@@ -9,7 +9,7 @@ def top_ten_popular_friends
   puts table
 end
 
-def top_ten_popular_tweets
+def top_ten_most_popular_tweets
   tweets = Tweet.order("likes DESC").take(10)
   puts "\n\n"
   tweets.each do |tweet|
@@ -20,7 +20,7 @@ def top_ten_popular_tweets
   end
 end
 
-def top_ten_popular_hashtags
+def top_ten_most_popular_hashtags
   hashtags = Hashtag.joins(:tweet_hashtags).group("tweet_hashtags.hashtag_id").order("COUNT(tweet_hashtags.hashtag_id) DESC").take(10)
   rows = hashtags.inject([]) do |memo, hashtag|
     memo << ["\##{hashtag.title}", hashtag.tweets.count]

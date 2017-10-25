@@ -1,11 +1,11 @@
 ### SENTIMENT ###
-def friend_table
+def friends_table
   puts "\nHere's a table of how positive or negative your friends are:"
   Sentiment.table(Sentiment.user_sentiment_hash)
   puts "\n\n"
 end
 
-def hashtag_table
+def hashtags_table
   puts "\nHere's a table of how positive or negative all the hashtags are:"
   Sentiment.table(Sentiment.avg_hashtag_hash)
   puts "\n\n"
