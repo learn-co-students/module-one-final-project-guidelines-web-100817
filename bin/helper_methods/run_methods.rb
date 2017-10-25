@@ -271,5 +271,5 @@ def err
 end
 
 def goodbye
-  puts "\nGoodbye!\n\n"
+  taste_the_rainbow("Goodbye!")
 end
