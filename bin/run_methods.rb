@@ -28,40 +28,99 @@ def populate_database
 end
 
 def get_user_input
-  print "What would you like to do? (type 'h' for help, 'q' for quit): ".light_blue
-  answer = gets.chomp
-  if answer.match(/h[a|e]+lp|^h\b/)
-    "help"
-  elsif answer.match(/quit|^q\b|exit/)
-    "quit"
-  ### BASICS ###
-  elsif answer.match(/((how many)|(number of)).*friends/)
-    "number of friends"
-  elsif answer.match(/((how many)|(number of)).*tweets/)
-    "number of tweets"
-  elsif answer.match(/((how many)|(number of)).*hashtags/)
-    "number of hashtags"
-  elsif answer.match(/(detail).+for (.+)/)
-    $input = answer.match(/(detail).+for (.+)/).captures[1]
-    "get details for user"
-  ### ABOUT ME ###
-  elsif answer.match(/my most ((popular)|(followed)) ((friend)|(person)|(account))/) && !answer.match(/\d/)
-    "my most popular friend"
-  elsif (answer.match(/my most ((popular)|(liked)) tweet/) || answer.match(/my.*tweet.*most.*like/)) && !answer.match(/\d/)
-    "my most popular tweet"
-  elsif answer.match(/my most ((popular)|(common)(ly)?( used)?) hashtag/) && !answer.match(/\d/)
-    "my most popular hashtag"
-  ### POPULARITY ###
-  elsif (answer.match(/most ((popular)|(followed)) ((friend)|(person)|(account))/) || answer.match(/((friend)|(person)|(account)).*((most)|(highest number)).*((popular)|(followers))/)) && !answer.match(/\d/)
-    "most popular friend"
-  elsif answer.match(/most ((popular)|(common)(ly)?( used)?) hashtag/) && !answer.match(/\d/)
-    "most popular hashtag"
-  elsif (answer.match(/most ((popular)|(liked)) tweet/) || answer.match(/tweet.*most.*like/)) && !answer.match(/\d/)
-    "most popular tweet"
-  ### RELATIONS ##
-
-  else
-    answer
+  running = true
+  while running
+    print "What would you like to do? (type 'h' for help, 'q' for quit): ".light_blue
+    answer = gets.chomp
+    if answer.match(/h[a|e]+lp|^h\b/)
+      help
+    elsif answer.match(/quit|^q\b|exit/)
+      goodbye
+      running = false
+      break
+    ### BASICS ###
+    elsif answer.match(/((how many)|(number of)).*friends/)
+      number_of_friends
+    elsif answer.match(/((how many)|(number of)).*tweets/)
+      number_of_tweets
+    elsif answer.match(/((how many)|(number of)).*hashtags/)
+      number_of_hashtags
+    elsif answer.match(/(detail).+for (.+)/)
+      $input = answer.match(/(detail).+for (.+)/)
+      get_details_for_user
+    ### ABOUT ME ###
+    elsif 
+      my_sentiment_score
+    elsif (answer.match(/my most ((popular)|(liked)) tweet/) || answer.match(/my.*tweet.*most.*like/)) && !answer.match(/\d/)
+      my_most_popular_tweet
+    elsif
+      my_most_positive_tweet
+    elsif
+      my_most_negative_tweet
+    elsif answer.match(/my most ((popular)|(common)(ly)?( used)?) hashtag/) && !answer.match(/\d/)
+      my_most_common_hashtag
+    ### POPULARITY ###
+    elsif (answer.match(/most ((popular)|(followed)) ((friend)|(person)|(account))/) || answer.match(/((friend)|(person)|(account)).*((most)|(highest number)).*((popular)|(followers))/)) && !answer.match(/\d/)
+      most_popular_friend
+    elsif answer.match(/most ((popular)|(common)(ly)?( used)?) hashtag/) && !answer.match(/\d/)
+      most_popular_hashtag
+    elsif (answer.match(/most ((popular)|(liked)) tweet/) || answer.match(/tweet.*most.*like/)) && !answer.match(/\d/)
+      most_popular_tweet
+    ### RELATIONS ##
+    elsif answer.match(/all (of )?(.+)'s tweets/) || answer.match(/all tweets (.*)((from)|(by)) (.*)/)
+      $input = answer.match(/all (of )?(.+)'s tweets/) || answer.match(/all tweets (.*)((from)|(by)) (.*)/)
+      all_user_tweets
+    elsif answer.match(/all (of )?(.+)'s hashtags/) || answer.match(/all hashtags .*by (.*)/)
+      $input = answer.match(/all (of )?(.+)'s hashtags/) || answer.match(/all hashtags .*by (.*)/)
+      all_user_hashtags
+    elsif answer.match(/(A|a)ll.*tweets.*#(.*)/) || answer.match(/((tweeting)|(saying)).*#(.*)/)
+      $input = answer.match(/(A|a)ll.*tweets.*#(.*)/) || answer.match(/((tweeting)|(saying)).*#(.*)/)
+      all_hashtag_tweets
+    elsif answer.match(/(A|a)ll.*((users)|(people)|(accounts)).*((hashtag )|(#))(.*)/) || answer.match(/(E|e)veryone.*((about )|(#))(.*)/)
+      $input = answer.match(/(A|a)ll.*((users)|(people)|(accounts)).*((hashtag )|(#))(.*)/) || answer.match(/(E|e)veryone.*((about )|(#))(.*)/)
+      all_hashtag_users
+    elsif
+      user_top_tweets
+    elsif
+      user_top_hashtags
+    elsif
+      hashtag_top_tweets
+    elsif
+      hashtag_top_users
+    ### SENTIMENT ###
+    elsif
+      friends_table
+    elsif
+      hashtags_table
+    elsif
+      most_positive_friend
+    elsif
+      most_negative_friend
+    elsif
+      most_positive_tweet
+    elsif
+      most_negative_tweet
+    elsif
+      most_positive_hashtag
+    elsif
+      most_negative_hashtag
+    elsif
+      average_friend_sentiment
+    ### TOP 10s ###
+    elsif
+      top_ten_most_popular_friends
+    elsif
+      top_ten_most_popular_tweets
+    elsif
+      top_ten_most_popular_hashtags
+    ### ALL INFO ###
+    elsif
+      all_user_info
+    elsif
+      all_hashtag_info
+    else
+      err
+    end
   end
 end
 
@@ -89,7 +148,7 @@ def help
   puts "  - user's top tweets".cyan
   puts "  - user's top hashtags".cyan
   puts "  - hashtag's top tweets".cyan
-  puts "  - hashtag's top tweeters".cyan
+  puts "  - hashtag's top users".cyan
   puts "- Sentiment".yellow
   puts "  - friends table".cyan
   puts "  - hashtags table".cyan
@@ -112,37 +171,4 @@ end
 
 def goodbye
   puts "\nGoodbye!\n\n"
-end
-
-### HELPERS ###
-def taste_the_rainbow(string)
-  colors = [:light_magenta, :light_red, :light_yellow, :light_green, :light_cyan, :light_blue]
-  color_index = 0
-  string.split("").each.with_index do |letter, index|
-    if index != string.length - 1
-      print letter.colorize(colors[color_index])
-      color_index < 5 ? color_index += 1 : color_index = 0
-    else
-      puts letter.colorize(colors[color_index])
-    end
-  end
-end
-
-def number_readability(number)
-  number.to_s.reverse.scan(/.{1,3}/).join(",").reverse
-end
-
-def find_user(input)
-  input.start_with?("@") ? User.find_by(twitter_handle: input.split("")[1..-1].join("")) : User.find_by(name: input)
-end
-
-def find_hashtag(input)
-  input.start_with?("#") ? Hashtag.find_by(title: input.split("")[1..-1].join("")) : Hashtag.find_by(title: input)
-end
-
-def format_tweet(user, tweet)
-  puts "\n#{user.name}" + " @#{user.twitter_handle}".yellow
-  puts "#{tweet.date_posted.strftime("%A, %b %d %Y")} #{tweet.date_posted.strftime("%I:%M")}"
-  puts "\n#{tweet.content}\n"
-  puts "#{tweet.likes} \u{2764}\n\n"
 end

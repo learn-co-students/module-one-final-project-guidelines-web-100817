@@ -3,6 +3,7 @@ require_relative './run_methods.rb'
 
 greet
 keep_database?
+<<<<<<< HEAD
 answer = nil
 while answer != "q"
   case answer = get_user_input
@@ -74,3 +75,6 @@ while answer != "q"
   end
 end
 goodbye
+=======
+get_user_input
+>>>>>>> fun_with_regex
