@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3) do
+ActiveRecord::Schema.define(version: 7) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "games", force: :cascade do |t|
   end
 
   create_table "questions", force: :cascade do |t|
@@ -22,6 +25,14 @@ ActiveRecord::Schema.define(version: 3) do
     t.integer "category_id"
     t.integer "value_id"
     t.integer "date"
+  end
+
+  create_table "scores", force: :cascade do |t|
+    t.integer "score"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "user_name"
   end
 
   create_table "values", force: :cascade do |t|

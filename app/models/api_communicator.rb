@@ -22,7 +22,6 @@ def iterator
   fullData.each do |obj|
     category = Category.find_or_create_by(name: obj["category"]["title"])
     value = Value.find_or_create_by(value: obj["value"])
-    # binding.pry
     question = Question.find_or_create_by(question: obj["question"], answer: obj["answer"], category_id: category.id, value_id: value.id, date: obj["airdate"])
   end
 
@@ -31,9 +30,3 @@ end
 
 
 iterator
-
-
-## BONUS
-
-# that `get_character_movies_from_api` method is probably pretty long. Does it do more than one job?
-# can you split it up into helper methods?

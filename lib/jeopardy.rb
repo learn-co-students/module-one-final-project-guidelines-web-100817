@@ -1,39 +1,37 @@
 # require_relative './question.rb'
 require 'pry'
 
-class User
-  attr_accessor :user_name, :scores, :high_score
-  @@all = []
-
-  def initialize(user_name)
-    @user_name = user_name
-    @scores = []
-    @high_score = scores.max
-  end
-
-end
-
 
 def find_or_create_user
   puts "Are you a new user or returning?"
   answer = get_user_input
 
   if answer == "new"
+    puts "What would you like your username to be?"
+    user_name = get_user_input
+    the_user = User.find_or_create_by(user_name: user_name)
 
   elsif answer == "returning"
-    
-
+    puts "What is your username?"
+    user_name = get_user_input
+    the_user = User.find_or_create_by(user_name: user_name)
 end
 
-def welcome
-  puts "Welcome to Jeopardy. My name is Alex Trebek.
+the_user
+end
+
+def welcome(the_user)
+  puts "Welcome to Jeopardy, #{the_user.user_name}. My name is Alex Trebek.
         Would you like to play a round, or would you like to hear some trivia?
         Please enter 'play' or 'trivia'"
 end
 
+
+
 def get_user_input
   gets.chomp
 end
+
 
 def pick_your_path
   answer = get_user_input
@@ -41,11 +39,10 @@ def pick_your_path
     player
   elsif answer == "trivia"
     trivia
+  else
+    invalid_command
+    pick_your_path
   end
-end
-
-def trivia
-  puts ""
 end
 
 
@@ -61,7 +58,7 @@ end
 
 
 def iterate_symbols(singleQuestion)
-  symbols = ";:.>,</?!@#$%^&*}{+=-_~`[]|'".split("")
+  symbols = ";:.>,</?!@#$%^&*}{+=-_~`[]|()'".split("")
   symbols.each do |ele|
     if singleQuestion.include?(ele)
       return true
@@ -92,19 +89,18 @@ def ask_question
   puts question = thing["question"]
   answer = thing["answer"]
   user_answer = get_user_input
-  if user_answer.downcase == answer.downcase
+  if "a #{user_answer.downcase}" == answer.downcase || user_answer.downcase == answer.downcase
     winnings += thing.value.value
-    puts "Correct!
-    "
+    puts "\n Correct! \n"
   else
-    puts "Wrong! The correct answer is #{answer}.
-    "
+    puts "\n Wrong! The correct answer is #{answer}. \n"
   end
   winnings
 end
 
 
 def player
+  puts "This...is...Jeopardy!"
   tot_winnings = 0
   counter = 0
   while counter < 5
@@ -113,7 +109,7 @@ def player
     counter += 1
   end
   tot_winnings
-  puts "Your winnings add up to $#{tot_winnings}"
+  puts "Your winnings for this round add up to $#{tot_winnings}!"
 end
 
 
@@ -125,47 +121,85 @@ def prompt_user
     player
   elsif answer == "no"
     puts "Thanks for playing!"
+  else
+    invalid_command
+    prompt_user
   end
 end
 
-def runner
-  welcome
-  pick_your_path
-  prompt_user
+
+def count
+  puts "In 1992, there were #{Question.all.count} questions asked."
+end
+
+def categoryReturn
+  puts "These were all of the question categories in 1992:"
+  puts Category.all.map{|cat| cat["name"]}
+end
+
+def weird
+  newArr = [{Question.find(656)['question'] => Question.find(656)['answer']}, {Question.find(676)['question'] => Question.find(676)['answer']}, {Question.find(716)['question'] => Question.find(716)['answer']}]
+  puts "This was an interesting question asked in 1992"
+  puts newArr.sample
+end
+
+def trivia
+  puts "What would you like to know? (select a number)"
+  puts "1) Number of questions asked in 1992"
+  puts "2) All of the categories from 1992"
+  puts "3) Interesting question from 1992"
+  trivia_runner
+end
+
+def invalid_command
+  "Please enter a valid command"
 end
 
 
-# def initial_round
-#   card_total = deal_card + deal_card
-#   display_card_total(card_total)
-# end
-#
-# def hit?(card_total)
-#   prompt_user
-#   answer = get_user_input
-#   if answer == "h"
-#     card_total += deal_card
-#   elsif answer == "s"
-#     card_total
+# def give_trivia
+#   if answer == "1"
+#     count
+#   elsif answer == "2"
+#     categoryReturn
+#   elsif answer == "3"
+#     weird
 #   else
-#     invalid_command
+#     puts "Please type a number"
+#     trivia1
 #   end
-#   card_total
-# end
-#
-# def invalid_command
-#   puts "Please enter a valid command"
 # end
 
-#####################################################
-# get every test to pass before coding runner below #
-#####################################################
-# def runner
-#   welcome
-#   card_total = initial_round
-#   until card_total > 21
-#     card_total = hit?(card_total)
-#     display_card_total(card_total)
-#   end
-# end_game(card_total)
-# end
+
+def trivia_runner
+  answer = get_user_input
+  if answer == "1"
+    count
+  elsif answer == "2"
+    categoryReturn
+  elsif answer == "3"
+    weird
+  else
+    puts "Please type a number"
+    trivia
+  end
+  puts "Would you like to hear more trivia or play a round of Jeopardy? Please type 'trivia' or 'play'"
+  response = get_user_input
+  if response == 'play'
+    player
+  elsif response == 'trivia'
+    trivia
+
+  end
+
+end
+
+def invalid_command
+  puts "Please enter a valid command"
+end
+
+
+def runner
+  welcome(find_or_create_user)
+  pick_your_path
+  prompt_user
+end
