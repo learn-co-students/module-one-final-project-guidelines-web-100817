@@ -66,8 +66,11 @@ GEM
       domain_name (~> 0.5)
     http-form_data (1.0.3)
     http_parser.rb (0.6.0)
+    httparty (0.15.6)
+      multi_xml (>= 0.5.2)
     i18n (0.9.0)
       concurrent-ruby (~> 1.0)
+    json (2.1.0)
     jwt (1.5.6)
     little-plugger (1.1.4)
     logging (2.2.2)
@@ -79,6 +82,7 @@ GEM
     method_source (0.9.0)
     minitest (5.10.3)
     multi_json (1.12.2)
+    multi_xml (0.6.0)
     multipart-post (2.0.0)
     mustermann (1.0.1)
     naught (1.1.0)
@@ -136,6 +140,8 @@ PLATFORMS
 DEPENDENCIES
   colorize
   google-cloud-language
+  httparty
+  json
   pry
   rake
   require_all

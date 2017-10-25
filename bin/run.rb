@@ -63,6 +63,8 @@ while answer != "q"
     all_user_info
   when "all hashtag info"
     all_hashtag_info
+  when "tell me a joke"
+    random_joke
   else
     err
   end
