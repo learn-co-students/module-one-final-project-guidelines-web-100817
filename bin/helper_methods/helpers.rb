@@ -18,21 +18,29 @@ end
 
 def find_user(input)
   user = input.captures[-1].strip
-  user.start_with?("@") ? User.find_by(twitter_handle: user.split("")[1..-1].join("")) : User.find_by(name: user)
+  if user
+    user.start_with?("@") ? User.find_by(twitter_handle: user.split("")[1..-1].join("")) : User.find_by(name: user)
+  else
+    puts "\nHmm... I couldn't seem to find who you were looking for.\n\n"
+  end
 end
 
 def find_hashtag(input)
   hashtag = input.captures[-1].strip
-  hashtag.start_with?("#") ? Hashtag.find_by(title: hashtag.split("")[1..-1].join("")) : Hashtag.find_by(title: hashtag)
+  if hashtag
+    hashtag.start_with?("#") ? Hashtag.find_by(title: hashtag.split("")[1..-1].join("")) : Hashtag.find_by(title: hashtag)
+  else
+    puts "\nHmm... I couldn't seem to find what you were looking for.\n\n"
+  end
 end
 
 def format_tweet(user, tweet)
   puts "\n#{user.name}" + " @#{user.twitter_handle}".yellow
   puts "#{tweet.date_posted.strftime("%A, %b %d %Y")} #{tweet.date_posted.strftime("%I:%M")}"
   puts "\n#{tweet.content}\n"
-  print "\u{2764} #{tweet.likes}"
+  print "#{"\u{2764}".light_red} #{number_readability(tweet.likes)}"
   print "   "
-  puts "\u{27F2} #{tweet.retweets}"
+  puts "#{"\u{27F2}".light_green} #{number_readability(tweet.retweets)}"
   puts "\n*----------------------------------------------*\n\n"
   sleep(0.5)
 end

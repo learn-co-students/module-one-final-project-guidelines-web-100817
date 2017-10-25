@@ -6,12 +6,21 @@ def my_details
   puts "#{"location:".cyan} #{User.first.location}"
   puts "#{"# following:".cyan} #{number_readability(User.first.following)}"
   puts "#{"# of followers:".cyan} #{number_readability(User.first.followers)}\n\n"
+  print "Would you like to view your profile in the browser? "
+  answer = gets.chomp
+  if answer.match(/(?:[Yy]$)|(?:[Yy]es)|(?:[Ss]ure)/)
+    twitter_url = "https://twitter.com/#{User.first.twitter_handle}"
+    `open #{twitter_url}`
+    print "\nThere you go. "
+  else
+    print "Suit yourself. "
+  end
 end
 
 
 def my_sentiment_score
   sentiment = Sentiment.get_avg_for_user(User.first)
-  puts "\nYour sentiment score is currently: #{sentiment}"
+  puts "\nYour sentiment score is currently: #{sentiment.to_s.light_green}"
   if sentiment < -0.5
     sentiment = "dreadful"
   elsif sentiment < 0
@@ -27,7 +36,7 @@ end
 def my_most_popular_tweet
   user = User.first
   tweet = user.tweets.order("likes DESC").first
-  puts "\nWow, a lot of people like this tweet! #{number_readability(tweet.likes)} people, to be exact."
+  puts "\nWow, a lot of people like this tweet! #{number_readability(tweet.likes).light_green} people, to be exact."
   format_tweet(user, tweet)
 end
 
