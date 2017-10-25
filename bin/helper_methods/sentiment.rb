@@ -1,32 +1,32 @@
 ### SENTIMENT ###
 def friends_table
-  puts "\nHere's a table of how positive or negative your friends are:"
+  puts "\nHere's a table of how positive or negative your friends are:\n"
   Sentiment.table(Sentiment.user_sentiment_hash)
-  puts "\n\n"
+  puts "\n"
 end
 
 def hashtags_table
-  puts "\nHere's a table of how positive or negative all the hashtags are:"
+  puts "\nHere's a table of how positive or negative all the hashtags are:\n"
   Sentiment.table(Sentiment.avg_hashtag_hash)
-  puts "\n\n"
+  puts "\n"
 end
 
 def most_positive_friend
-  puts "\nLooks like #{Sentiment.most_positive_friend} is a real ray of sunshine.\n\n"
+  puts "\nLooks like #{Sentiment.most_positive_friend.light_green} is a real ray of sunshine.\n\n"
 end
 
 def most_negative_friend
-  puts "\nIs it true that #{Sentiment.most_negative_friend} is always a bummer?\n\n"
+  puts "\nIs it true that #{Sentiment.most_negative_friend.red} is always a bummer?\n\n"
 end
 
 def most_positive_tweet
   puts "\nDoes this make you happy?"
-  puts "#{Sentiment.most_positive_tweet}\n\n"
+  format_tweet(Sentiment.most_positive_tweet[0], Sentiment.most_positive_tweet[1])
 end
 
 def most_negative_tweet
   puts "\nBack in MY day, we walked uphill everywhere we went."
-  puts "#{Sentiment.most_negative_tweet}\n\n"
+  format_tweet(Sentiment.most_negative_tweet[0], Sentiment.most_negative_tweet[1])
 end
 
 def average_friend_sentiment

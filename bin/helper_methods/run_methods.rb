@@ -15,7 +15,7 @@ def greet
   puts "                　 　┃ ┃ "
   puts "                  ━━━┻━┻━━━━ \n\n"
   puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-  puts "               TWITTER BASHBOARD                 "
+  puts "               TWITTER BASHBOARD                 ".colorize(color: :black, background: :light_cyan)
   puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
 end
 
