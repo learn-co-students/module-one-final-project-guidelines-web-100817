@@ -15,6 +15,7 @@ def random_joke
   response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
     http.request(request)
   end
+  puts "You asked for it!"
   puts response.body
 end
 
@@ -31,5 +32,6 @@ def random_cat_fact
     http.request(request)
   end
   doc = JSON.parse(response.body)
+  puts "Did you know..."
   puts doc["fact"]
 end
