@@ -26,16 +26,13 @@ def populate_database
 end
 
 def get_user_input
-  running = true
-  while running
+  loop do
     print "What would you like to do? (type 'h' for help, 'q' for quit): ".light_blue
     answer = gets.chomp
     if answer.match(/h[a|e]+lp|^h\b/)
       help
     elsif answer.match(/quit|^q\b|exit/)
-      running = false
       goodbye
-      break
     ### BASICS ###
     elsif answer.match(/((how many)|(number of)).*friends/)
       number_of_friends
@@ -86,7 +83,7 @@ def get_user_input
     elsif
       hashtag_top_users
     ### SENTIMENT ###
-  elsif answer.match(/friend(s)? table/) || answer.match(/table.*friend(s)?/)
+    elsif answer.match(/friend(s)? table/) || answer.match(/table.*friend(s)?/)
       friends_table
     elsif answer.match(/hashtag(s)? table/) || answer.match(/table.*hashtag(s)?/)
       hashtags_table
@@ -94,18 +91,18 @@ def get_user_input
       most_positive_friend
     elsif answer.match(/most negative ((person)|(friend))/) || answer.match(/((person)|(friend)).*most negative/)
       most_negative_friend
-    elsif answer.match(/most positive tweet/) || answer.match (/tweet is the most positive/)
+    elsif answer.match(/most positive tweet/) || answer.match(/tweet is the most positive/)
       most_positive_tweet
-    elsif answer.match(/most negative tweet/) || answer.match (/tweet is the most negative/)
+    elsif answer.match(/most negative tweet/) || answer.match(/tweet is the most negative/)
       most_negative_tweet|| answer.match(/((person)|(friend)).*most negative/)
-    elsif answer.match(/most positive hashtag/) || answer.match (/hashtag is the most positive/)
+    elsif answer.match(/most positive hashtag/) || answer.match(/hashtag is the most positive/)
       most_positive_hashtag
-    elsif answer.match(/most negative hashtag/) || answer.match (/hashtag is the most negative/)
+    elsif answer.match(/most negative hashtag/) || answer.match(/hashtag is the most negative/)
       most_negative_hashtag
     elsif answer.match(/average(\s)?(friend)? sentiment( of my friends)?/)
       average_friend_sentiment
     ### TOP 10s ###
-  elsif answer.match(/top 10(\s)?(most )?((popular)|(followed))? friends/)
+    elsif answer.match(/top 10(\s)?(most )?((popular)|(followed))? friends/)
       top_ten_most_popular_friends
     elsif answer.match(/top 10(\s)?(most )?((popular)|(liked))? tweets/)
       top_ten_most_popular_tweets
