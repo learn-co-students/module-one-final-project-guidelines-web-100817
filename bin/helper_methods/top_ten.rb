@@ -26,3 +26,12 @@ def top_ten_most_popular_hashtags
   table = Terminal::Table.new(:headings => ["Hashtag".yellow, "\# of Tweets".yellow], :rows => rows)
   puts table
 end
+
+def top_ten_tweeters
+  users = User.order("tweet_count DESC").take(10)
+  rows = users.inject([]) do |memo, user|
+    memo << [user.name, user.twitter_handle, user.tweet_count]
+  end
+  table = Terminal::Table.new(:headings => ["Name".yellow, "Twitter Handle".yellow, "# of Tweets".yellow], :rows => rows)
+  puts table
+end

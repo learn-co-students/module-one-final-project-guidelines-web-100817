@@ -4,6 +4,7 @@ def my_details
   puts "\n#{"name:".cyan} #{User.first.name}"
   puts "#{"username:".cyan} @#{User.first.twitter_handle}"
   puts "#{"location:".cyan} #{User.first.location}"
+  puts "#{"# of tweets:".cyan} #{number_readability(User.first.tweet_count)}"
   puts "#{"# following:".cyan} #{number_readability(User.first.following)}"
   puts "#{"# of followers:".cyan} #{number_readability(User.first.followers)}\n\n"
 end

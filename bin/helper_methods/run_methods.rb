@@ -86,7 +86,7 @@ def get_user_input
     elsif
       answer.match(/my details/)
       my_details
-    elsif 
+    elsif
       answer.match(/my sentiment score/)
       my_sentiment_score
     elsif
@@ -131,7 +131,7 @@ def get_user_input
       answer.match(/all tweets (.*)((from)|(by)) (.*)/)
       input =
       answer.match(/all (of )?(.+)'s tweets/) ||
-      answer.match(/all tweets (.*)((from)|(by)) (.*)/)
+      answer.match(/all( the)? tweets (.*)((from)|(by)) (.*)/)
       all_user_tweets(input)
     elsif answer.match(/all (of )?(.+)'s hashtags/) || answer.match(/all hashtags .*by (.*)/)
       input = answer.match(/all (of )?(.+)'s hashtags/) || answer.match(/all hashtags .*by (.*)/)
@@ -226,10 +226,13 @@ def get_user_input
     elsif
       answer.match(/top 10(\s)?(most )?((popular)|(common)(ly)?( used)?)? hashtag(s)?/)
       top_ten_most_popular_hashtags
+    elsif
+      answer.match(/top 10 ((tweeters)|(people who tweet( the)? most))/)
+      top_ten_tweeters
 
     ### ALL INFO ###
 
-    elsif 
+    elsif
       answer.match(/((all users)|(everyone))$/)
       all_user_info
     elsif
@@ -288,6 +291,7 @@ def help
   puts "  - top 10 most popular friends".cyan
   puts "  - top 10 most popular tweets".cyan
   puts "  - top 10 most popular hashtags".cyan
+  puts "  - top 10 tweeters".cyan
   puts "- All Info".yellow
   puts "  - all users in the database".cyan
   puts "  - all hashtags\n".cyan
