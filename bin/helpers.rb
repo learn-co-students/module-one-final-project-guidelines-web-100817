@@ -17,12 +17,12 @@ def number_readability(number)
 end
 
 def find_user(input)
-  user = input.captures[-1]
+  user = input.captures[-1].strip
   user.start_with?("@") ? User.find_by(twitter_handle: user.split("")[1..-1].join("")) : User.find_by(name: user)
 end
 
 def find_hashtag(input)
-  hashtag = input.captures[-1]
+  hashtag = input.captures[-1].strip
   hashtag.start_with?("#") ? Hashtag.find_by(title: hashtag.split("")[1..-1].join("")) : Hashtag.find_by(title: hashtag)
 end
 

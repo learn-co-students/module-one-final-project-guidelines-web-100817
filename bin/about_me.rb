@@ -1,5 +1,5 @@
 ### ABOUT ME ###
-def my_sentiment
+def my_sentiment_score
   sentiment = Sentiment.get_avg_for_user(User.first)
   puts "\nYour sentiment score is currently: #{sentiment}"
   if sentiment < -0.5
