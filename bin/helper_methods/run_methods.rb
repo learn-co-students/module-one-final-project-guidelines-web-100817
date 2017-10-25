@@ -6,10 +6,10 @@ end
 def keep_database?
   if !User.all.empty?
     puts "Would you like to keep the database or get a new one? "
-    print "(The user inputted for the previous database was #{"@".light_green}#{User.first.twitter_handle.light_green} "
+    print "(The user inputted for the previous database was #{"@".light_green}#{User.first.twitter_handle.light_green}) "
     answer = gets.chomp
-    if answer == "get"
-      populate_database 
+    if answer.include?("get") || answer.include?("new")
+      populate_database
     else
       print "Awesome. ".light_blue
     end
@@ -48,7 +48,7 @@ def get_user_input
 
     ### BASICS ###
 
-    elsif 
+    elsif
       answer.match(/((how many)|(number of)).*friends/)
       number_of_friends
     elsif
@@ -64,7 +64,7 @@ def get_user_input
 
     ### ABOUT ME ###
 
-    elsif 
+    elsif
       answer.match(/my sentiment score/)
       my_sentiment_score
     elsif
@@ -80,13 +80,13 @@ def get_user_input
     elsif
       answer.match(/my most ((popular)|(common)(ly)?( used)?) hashtag/) &&
       !answer.match(/\d/)
-      my_most_common_hashtag
+      my_most_popular_hashtag
 
     ### POPULARITY ###
 
-    elsif 
-      (answer.match(/most ((popular)|(followed)) ((friend)|(person)|(account))/) || 
-      answer.match(/((friend)|(person)|(account)).*((most)|(highest number)).*((popular)|(followers))/)) && 
+    elsif
+      (answer.match(/most ((popular)|(followed)) ((friend)|(person)|(account))/) ||
+      answer.match(/((friend)|(person)|(account)).*((most)|(highest number)).*((popular)|(followers))/)) &&
       !answer.match(/\d/)
       most_popular_friend
     elsif
@@ -101,8 +101,8 @@ def get_user_input
 
     ### RELATIONS ##
 
-    elsif 
-      answer.match(/all (of )?(.+)'s tweets/) || 
+    elsif
+      answer.match(/all (of )?(.+)'s tweets/) ||
       answer.match(/all tweets (.*)((from)|(by)) (.*)/)
       input =
       answer.match(/all (of )?(.+)'s tweets/) ||
@@ -118,11 +118,11 @@ def get_user_input
       answer.match(/(A|a)ll.*tweets.*#(.*)/) ||
       answer.match(/((tweeting)|(saying)).*#(.*)/)
       all_hashtag_tweets(input)
-    elsif 
+    elsif
       answer.match(/(A|a)ll.*((users)|(people)|(accounts)).*((hashtag )|(#))(.*)/) || # Show me all the people tweeting about #<hashtag>
       answer.match(/(E|e)veryone.*((about )|(#))(.*)/) # Show me everyone who is tweeting about #<hashtag>
-      input = 
-      answer.match(/(A|a)ll.*((users)|(people)|(accounts)).*((hashtag )|(#))(.*)/) || 
+      input =
+      answer.match(/(A|a)ll.*((users)|(people)|(accounts)).*((hashtag )|(#))(.*)/) ||
       answer.match(/(E|e)veryone.*((about )|(#))(.*)/)
       all_hashtag_users(input)
     elsif
@@ -155,69 +155,69 @@ def get_user_input
 
     ### SENTIMENT ###
 
-    elsif 
-      answer.match(/friend(s)? table/) || 
+    elsif
+      answer.match(/friend(s)? table/) ||
       answer.match(/table.*friend(s)?/)
       friends_table
-    elsif 
-      answer.match(/hashtag(s)? table/) || 
+    elsif
+      answer.match(/hashtag(s)? table/) ||
       answer.match(/table.*hashtag(s)?/)
       hashtags_table
-    elsif 
-      answer.match(/most positive ((person)|(friend))/) || 
+    elsif
+      answer.match(/most positive ((person)|(friend))/) ||
       answer.match(/((person)|(friend)).*most positive/)
       most_positive_friend
-    elsif 
-      answer.match(/most negative ((person)|(friend))/) || 
+    elsif
+      answer.match(/most negative ((person)|(friend))/) ||
       answer.match(/((person)|(friend)).*most negative/)
       most_negative_friend
-    elsif 
-      answer.match(/most positive tweet/) || 
+    elsif
+      answer.match(/most positive tweet/) ||
       answer.match(/tweet is( the)?most positive/)
       most_positive_tweet
-    elsif 
-      answer.match(/most negative tweet/) || 
+    elsif
+      answer.match(/most negative tweet/) ||
       answer.match(/tweet is( the)? most negative/)
       most_negative_tweet|| answer.match(/((person)|(friend)).*most negative/)
-    elsif 
-      answer.match(/most positive hashtag/) || 
+    elsif
+      answer.match(/most positive hashtag/) ||
       answer.match(/hashtag is( the)? most positive/)
       most_positive_hashtag
-    elsif 
-      answer.match(/most negative hashtag/) || 
+    elsif
+      answer.match(/most negative hashtag/) ||
       answer.match(/hashtag is( the)? most negative/)
       most_negative_hashtag
-    elsif 
+    elsif
       answer.match(/average(\s)?(friend)? sentiment( of my friends)?/)
       average_friend_sentiment
 
     ### TOP 10s ###
 
-    elsif 
+    elsif
       answer.match(/top 10(\s)?(most )?((popular)|(followed))? ((friends)|(people))/)
       top_ten_most_popular_friends
-    elsif 
+    elsif
       answer.match(/top 10(\s)?(most )?((popular)|(liked))? tweets/)
       top_ten_most_popular_tweets
-    elsif 
+    elsif
       answer.match(/top 10(\s)?(most )?((popular)|(common)(ly)?( used)?)? hashtag(s)?/)
       top_ten_most_popular_hashtags
 
     ### ALL INFO ###
 
-    elsif 
+    elsif
       answer.match(/((all users)|(everyone)).*database/)
       all_user_info
-    elsif 
+    elsif
       answer.match(/((all)|(every)) (the )?hashtag(s)?/)
       all_hashtag_info
 
     ### EASTER EGGS ###
 
-    elsif 
+    elsif
       answer.match(/((joke)|(funny))/)
       random_joke
-    elsif 
+    elsif
       answer.match(/((cat)|(kitty)|(meow))/)
       random_cat_fact
     else
