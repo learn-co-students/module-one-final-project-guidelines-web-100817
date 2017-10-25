@@ -3,11 +3,7 @@ def all_user_tweets(input)
   user = find_user(input)
   puts "\nHere are all the tweets from #{user.name}:\n\n"
   user.tweets.each do |tweet|
-    puts "#{tweet.content}"
-    print "\u{2764} #{tweet.likes}"
-    print "   "
-    puts "\u{27F2} #{tweet.retweets}"
-    puts "*----------------------*"
+    format_tweet(user, tweet)
   end
 end
 
@@ -31,12 +27,8 @@ def all_hashtag_tweets(input)
   hashtag = find_hashtag(input)
   puts "\nHere are all the tweets about \##{hashtag.title}:\n\n"
   hashtag.tweets.each do |tweet|
-    puts "#{tweet.user.name} tweeted:"
-    puts "#{tweet.content}"
-    print "\u{2764} #{tweet.likes}"
-    print "   "
-    puts "\u{27F2} #{tweet.retweets}"
-    puts "*----------------------*"
+    user = User.find(tweet.user_id)
+    format_tweet(user, tweet)
   end
 end
 
@@ -44,11 +36,7 @@ def user_top_tweets(input)
   user = find_user(input)
   puts "\nHere are the top 5 tweets from #{user.name}:\n\n"
   user.tweets.order("tweets.likes DESC").limit(5).each do |tweet|
-    puts "#{tweet.content}"
-    print "\u{2764} #{tweet.likes}"
-    print "   "
-    puts "\u{27F2} #{tweet.retweets}"
-    puts "*----------------------*"
+    format_tweet(user, tweet)
   end
 end
 
@@ -66,12 +54,8 @@ def hashtag_top_tweets(input)
   hashtag = find_hashtag(input)
   puts "\nHere are the most popular tweets about \##{hashtag.title}:\n\n"
   hashtag.tweets.order("tweets.likes DESC").each do |tweet|
-    puts "#{tweet.user.name} tweeted:"
-    puts "#{tweet.content}"
-    print "\u{2764} #{tweet.likes}"
-    print "   "
-    puts "\u{27F2} #{tweet.retweets}"
-    puts "*----------------------*"
+    user = User.find(tweet.user_id)
+    format_tweet(user, tweet)
   end
 end
 

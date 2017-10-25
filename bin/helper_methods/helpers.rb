@@ -30,5 +30,9 @@ def format_tweet(user, tweet)
   puts "\n#{user.name}" + " @#{user.twitter_handle}".yellow
   puts "#{tweet.date_posted.strftime("%A, %b %d %Y")} #{tweet.date_posted.strftime("%I:%M")}"
   puts "\n#{tweet.content}\n"
-  puts "#{tweet.likes} \u{2764}\n\n"
+  print "\u{2764} #{tweet.likes}"
+  print "   "
+  puts "\u{27F2} #{tweet.retweets}"
+  puts "\n*----------------------------------------------*\n\n"
+  sleep(0.5)
 end

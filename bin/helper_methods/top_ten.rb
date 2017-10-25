@@ -15,8 +15,6 @@ def top_ten_most_popular_tweets
   tweets.each do |tweet|
     user = User.find(tweet.user_id)
     format_tweet(user, tweet)
-    puts "\n-------------------------------------------------\n\n"
-    sleep(0.75)
   end
 end
 
