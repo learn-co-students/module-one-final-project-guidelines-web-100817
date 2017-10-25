@@ -7,4 +7,4 @@ ActiveRecord::Base.logger = nil
 
 require_all 'lib'
 require_all 'app'
-require_all 'bin'
+require_all 'bin/helper_methods/*.rb'

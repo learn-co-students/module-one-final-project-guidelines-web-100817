@@ -1,5 +1,3 @@
-require_relative('../bin/run_methods.rb')
-
 class TwitterApi
 
   keys = YAML.load_file('config/application.yml')
