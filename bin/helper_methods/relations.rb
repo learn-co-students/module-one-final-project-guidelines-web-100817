@@ -4,8 +4,9 @@ def all_user_tweets(input)
   puts "\nHere are all the tweets from #{user.name}:\n\n"
   user.tweets.each do |tweet|
     puts "#{tweet.content}"
-    print "\u{2764}: #{tweet.likes}"
-    puts "\u{27F2}: #{tweet.retweets}"
+    print "\u{2764} #{tweet.likes}"
+    print "   "
+    puts "\u{27F2} #{tweet.retweets}"
     puts "*----------------------*"
   end
 end
@@ -32,8 +33,9 @@ def all_hashtag_tweets(input)
   hashtag.tweets.each do |tweet|
     puts "#{tweet.user.name} tweeted:"
     puts "#{tweet.content}"
-    print "\u{2764}: #{tweet.likes}"
-    puts "\u{27F2}: #{tweet.retweets}"
+    print "\u{2764} #{tweet.likes}"
+    print "   "
+    puts "\u{27F2} #{tweet.retweets}"
     puts "*----------------------*"
   end
 end
@@ -43,8 +45,9 @@ def user_top_tweets(input)
   puts "\nHere are the top 5 tweets from #{user.name}:\n\n"
   user.tweets.order("tweets.likes DESC").limit(5).each do |tweet|
     puts "#{tweet.content}"
-    print "\u{2764}: #{tweet.likes}"
-    puts "\u{27F2}: #{tweet.retweets}"
+    print "\u{2764} #{tweet.likes}"
+    print "   "
+    puts "\u{27F2} #{tweet.retweets}"
     puts "*----------------------*"
   end
 end
@@ -65,8 +68,9 @@ def hashtag_top_tweets(input)
   hashtag.tweets.order("tweets.likes DESC").each do |tweet|
     puts "#{tweet.user.name} tweeted:"
     puts "#{tweet.content}"
-    print "\u{2764}: #{tweet.likes}"
-    puts "\u{27F2}: #{tweet.retweets}"
+    print "\u{2764} #{tweet.likes}"
+    print "   "
+    puts "\u{27F2} #{tweet.retweets}"
     puts "*----------------------*"
   end
 end

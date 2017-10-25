@@ -4,7 +4,9 @@ def all_user_info
     memo << [user.name, "@#{user.twitter_handle}", user.location, number_readability(user.following), number_readability(user.followers)]
   end
   table = Terminal::Table.new(:headings => ["Name".yellow, "Twitter Handle".yellow, "Location".yellow, "Following".yellow, "Followers".yellow], :rows => rows)
+  puts ""
   puts table
+  puts ""
 end
 
 def all_hashtag_info
@@ -12,5 +14,7 @@ def all_hashtag_info
     memo << ["\##{hashtag.title}", hashtag.tweets.count]
   end
   table = Terminal::Table.new(:headings => ["Title".yellow, "\# of Tweets"], :rows => rows)
+  puts ""
   puts table
+  puts ""
 end

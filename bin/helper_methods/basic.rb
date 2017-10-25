@@ -1,14 +1,14 @@
 ### BASICS ###
 def number_of_friends
-  puts "\nYou have #{(User.all.count - 1).to_s.light_green} friends. Not so bad. Could be better. You should get out more.\n\n"
+  puts "\nYou're following #{User.first.following.to_s.light_green} people, and #{(User.all.count - 1).to_s.light_green} of them are currently in the database.\n\n"
 end
 
 def number_of_tweets
-  puts "\nYour friends have tweeted #{(Tweet.all.count - User.first.tweets.count).to_s.light_green} times, and you have tweeted #{(User.first.tweets.count).to_s.light_green} times. Like... whoa.\n\n"
+  puts "\nThere are currently #{(Tweet.all.count - User.first.tweets.count).to_s.light_green} tweets from your friends in the database, and #{(User.first.tweets.count).to_s.light_green} from you.\n\n"
 end
 
 def number_of_hashtags
-  print "\nYou and your friends have used #{(Hashtag.all.count).to_s.light_green} hashtags a total of #{(TweetHashtag.all.count).to_s.light_green} times. "
+  print "\nThe tweets in the database contain #{(Hashtag.all.count).to_s.light_green} individual hashtags, used a total of #{(TweetHashtag.all.count).to_s.light_green} times. "
   taste_the_rainbow("#octothorpe")
   puts ""
 end
@@ -23,6 +23,6 @@ def get_details_for_user(input)
     puts "#{"# following:".cyan} #{number_readability(user.following)}"
     puts "#{"# of followers:".cyan} #{number_readability(user.followers)}\n\n"
   else
-    puts "\nHmm... I couldn't seem to find who you were looking for.\n"
+    puts "\nHmm... I couldn't seem to find who you were looking for.\n\n"
   end
 end

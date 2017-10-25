@@ -1,17 +1,27 @@
 ### ABOUT ME ###
+def my_details
+  puts "\nHere's everything there is to know about you:"
+  puts "\n#{"name:".cyan} #{User.first.name}"
+  puts "#{"username:".cyan} @#{User.first.twitter_handle}"
+  puts "#{"location:".cyan} #{User.first.location}"
+  puts "#{"# following:".cyan} #{number_readability(User.first.following)}"
+  puts "#{"# of followers:".cyan} #{number_readability(User.first.followers)}\n\n"
+end
+
+
 def my_sentiment_score
   sentiment = Sentiment.get_avg_for_user(User.first)
   puts "\nYour sentiment score is currently: #{sentiment}"
   if sentiment < -0.5
     sentiment = "dreadful"
   elsif sentiment < 0
-    sentiment = "downer"
+    sentiment = "a downer"
   elsif sentiment < 0.5
     sentiment = "slightly happy"
   else
     sentiment = "beaming"
   end
-  puts "That means that you've probably been #{sentiment} lately."
+  puts "That means that you've probably been #{sentiment} lately.\n\n"
 end
 
 def my_most_popular_tweet
@@ -39,16 +49,16 @@ def my_average_tweeting_time
   time2 = user.tweets.first.date_posted
   avg = (((time2 - time1) / 1.hour).round) / user.tweets.length
   if avg < 10
-    puts "\nWow, looks you only wait an average of #{avg} hours between tweets. Needy much?"
+    puts "\nWow, looks you only wait an average of #{avg.to_s.light_green} hours between tweets. Needy much?\n\n"
   elsif avg < 24
-    puts "\nYou tweet, on average, once every #{avg} hours."
+    puts "\nYou tweet, on average, once every #{avg.to_s.light_green} hours.\n\n"
   else
-    puts "\nYou only tweet once every #{avg} hours. You should probably tweet more if you want people to care."
+    puts "\nYou only tweet once every #{avg.to_s.light_green} hours. You should probably tweet more if you want people to care.\n\n"
   end
 end
 
-  def my_most_popular_hashtag
+  def my_most_common_hashtag
     user = User.first
     hashtag = Hashtag.joins(:tweets).where("tweets.user_id = ?", user.id).group("hashtags.title").order("count(hashtags.title) DESC").first
-    puts "Your most used hashtag is \##{hashtag.title}. You've tweeted about it #{user.tweet_hashtags.where("hashtag_id = ?", hashtag.id).count} times."
+    puts "\nYour most used hashtag is #{"#".light_green}#{hashtag.title.light_green}. You've tweeted about it #{user.tweet_hashtags.where("hashtag_id = ?", hashtag.id).count.to_s.light_green} times.\n\n"
   end

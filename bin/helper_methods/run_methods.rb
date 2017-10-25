@@ -6,7 +6,7 @@ end
 def keep_database?
   if !User.all.empty?
     puts "Would you like to keep the database or get a new one? "
-    print "(The user inputted for the previous database was #{"@".light_green}#{User.first.twitter_handle.light_green} "
+    print "(The user inputted for the previous database was #{"@".light_green}#{User.first.twitter_handle.light_green}) "
     answer = gets.chomp
     if answer == "get"
       populate_database 
@@ -64,6 +64,9 @@ def get_user_input
 
     ### ABOUT ME ###
 
+    elsif
+      answer.match(/my details/)
+      my_details
     elsif 
       answer.match(/my sentiment score/)
       my_sentiment_score
@@ -81,6 +84,9 @@ def get_user_input
       answer.match(/my most ((popular)|(common)(ly)?( used)?) hashtag/) &&
       !answer.match(/\d/)
       my_most_common_hashtag
+    elsif
+      answer.match(/my average tweeting time/)
+      my_average_tweeting_time
 
     ### POPULARITY ###
 
@@ -135,7 +141,7 @@ def get_user_input
     elsif
       ((answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s most common(?:ly used)? hashtags/) || # What are <name>'s most commonly used hashtags?
       answer.match(/hashtags does((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)(?:(?:tweet)|(?:use)).*most?/)) || # What hashtags does <name> use the most?
-      answer.match(/hashtags.*most.*(?:(?:tweet)|(?:use)).*by((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)\?/)) || # What are the hashtags most commonly tweeted by <name>?
+      answer.match(/hashtags.*most.*(?:(?:tweet)|(?:use)).*by((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)\?/)) || # What are the hashtags most commonly used by <name>?
       answer.match(/hashtags.*(?:(?:tweet)|(?:use)).*most.*by ((?:(?:[A-Z])|(?:@)).+(?:(?:\s\w+))?)\?/) # What hashtags are used most by <name>
       input =
       ((answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s most common(?:ly used)? hashtags/) ||
@@ -206,7 +212,7 @@ def get_user_input
     ### ALL INFO ###
 
     elsif 
-      answer.match(/((all users)|(everyone)).*database/)
+      answer.match(/((all users)|(everyone))$/)
       all_user_info
     elsif 
       answer.match(/((all)|(every)) (the )?hashtag(s)?/)
@@ -234,6 +240,7 @@ def help
   puts "  - number of hashtags".cyan
   puts "  - get details for user".cyan
   puts "- About Me".yellow
+  puts "  - my details".cyan
   puts "  - my sentiment score".cyan
   puts "  - my most positive/negative tweet".cyan
   puts "  - my most popular tweet".cyan
