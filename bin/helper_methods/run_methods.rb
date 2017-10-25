@@ -1,17 +1,36 @@
 def greet
-  puts "\nHello there! Welcome to our friendly Twitter CLI.".colorize(:yellow)
-  taste_the_rainbow("All your base are belong to us")
+  puts `clear`
+  puts "               　╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮"
+  print "               　┃ "
+ taste_the_rainbow("All your base are belong to us")
+  puts " ┃"
+  puts "               　╰━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯ "
+  puts "               　　　┃  "
+  puts "               　　╭━━━━━╮ "
+  puts "               　　┃▍　▍ ┃ "
+  puts "              　　╱　 　 ┃ "
+  puts "              　　▔▔　　 ╰━┓ "
+  puts "               　　┃　　╰━┛┃ "
+  puts "               　　╰━┳━┳━━━╯ "
+  puts "                　 　┃ ┃ "
+  puts "                  ━━━┻━┻━━━━ \n\n"
+  puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+  puts "               TWITTER BASHBOARD                 "
+  puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
 end
 
 def keep_database?
   if !User.all.empty?
     puts "Would you like to keep the database or get a new one? "
-    print "(The user inputted for the previous database was #{"@".light_green}#{User.first.twitter_handle.light_green}) "
+    print "(The user inputted for the previous database was #{"@".light_green}#{User.first.twitter_handle.light_green}):   "
     answer = gets.chomp
     if answer.include?("get") || answer.include?("new")
       populate_database
     else
-      print "Awesome. ".light_blue
+      print "\n                   "
+      "Awesome. ".light_blue.each_char {|c| putc c ; sleep 0.10; $stdout.flush }
+      sleep(0.3)
+      puts `clear`
     end
   else
     populate_database
@@ -244,7 +263,7 @@ def help
   puts "  - my most positive/negative tweet".cyan
   puts "  - my most popular tweet".cyan
   puts "  - my most common hashtag".cyan
-  puts "  - my average tweeting time"
+  puts "  - my average tweeting time".cyan
   puts "- Popularity".yellow
   puts "  - most popular friend".cyan
   puts "  - most popular hashtag".cyan
@@ -279,5 +298,21 @@ def err
 end
 
 def goodbye
+  puts ""
+  puts "               　╭━━━━━━━━━━╮"
+  print "               　┃ "
   taste_the_rainbow("Goodbye!")
+  puts " ┃"
+  puts "               　╰━━━┳━━━━━━╯ "
+  puts "               　　　┃  "
+  puts "               　　╭━━━━━╮ "
+  puts "               　　┃▍　▍ ┃ "
+  puts "              　　╱　 　 ┃ "
+  puts "              　　▔▔　　 ╰━┓ "
+  puts "               　　┃　　╰━┛┃ "
+  puts "               　　╰━┳━┳━━━╯ "
+  puts "                　 　┃ ┃ "
+  puts "                  ━━━┻━┻━━━━ \n\n"
+  sleep(1.5)
+  puts `clear`
 end

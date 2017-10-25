@@ -1,4 +1,4 @@
-# Twitter Dashboard
+# Twitter Bashboard
 
 Twitter Dashboard is a command line application that provides a wide variety of tools to analyze and parse data about your own twitter account and the people you follow. We use Twitter's API to grab people you follow and a selection of their tweets, and utilize Google's Natural Language API to perform sentiment analysis - this means that you can see which of your friends/tweets/hashtags is the most positive or negative, as well as much more. We've also tried to make user input feel as natural as possible - there are multiple ways to ask the same thing and return the same data.
 

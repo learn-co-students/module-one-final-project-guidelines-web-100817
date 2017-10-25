@@ -7,7 +7,7 @@ def taste_the_rainbow(string)
       print letter.colorize(colors[color_index])
       color_index < 5 ? color_index += 1 : color_index = 0
     else
-      puts letter.colorize(colors[color_index])
+      print letter.colorize(colors[color_index])
     end
   end
 end

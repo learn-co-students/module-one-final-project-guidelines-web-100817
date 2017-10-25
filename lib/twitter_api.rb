@@ -1,6 +1,6 @@
 class TwitterApi
 
-  keys = YAML.load_file('../config/application.yml')
+  keys = YAML.load_file('config/application.yml')
   @@client = Twitter::REST::Client.new do |config|
     config.consumer_key        = keys['consumer_key']
     config.consumer_secret     = keys['consumer_secret']
