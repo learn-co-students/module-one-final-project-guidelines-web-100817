@@ -16,14 +16,14 @@ def number_readability(number)
   number.to_s.reverse.scan(/.{1,3}/).join(",").reverse
 end
 
-def find_user
-  input = $input.captures[-1]
-  input.start_with?("@") ? User.find_by(twitter_handle: input.split("")[1..-1].join("")) : User.find_by(name: input)
+def find_user(input)
+  user = input.captures[-1]
+  user.start_with?("@") ? User.find_by(twitter_handle: user.split("")[1..-1].join("")) : User.find_by(name: user)
 end
 
-def find_hashtag
-  input = $input.captures[-1]
-  input.start_with?("#") ? Hashtag.find_by(title: input.split("")[1..-1].join("")) : Hashtag.find_by(title: input)
+def find_hashtag(input)
+  hashtag = input.captures[-1]
+  hashtag.start_with?("#") ? Hashtag.find_by(title: hashtag.split("")[1..-1].join("")) : Hashtag.find_by(title: hashtag)
 end
 
 def format_tweet(user, tweet)

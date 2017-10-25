@@ -1,5 +1,3 @@
-input = nil
-
 def greet
   puts "\nHello there! Welcome to our friendly Twitter CLI.".colorize(:yellow)
   taste_the_rainbow("All your base are belong to us")
@@ -46,8 +44,8 @@ def get_user_input
     elsif answer.match(/((how many)|(number of)).*hashtags/)
       number_of_hashtags
     elsif answer.match(/(detail).+for (.+)/)
-      $input = answer.match(/(detail).+for (.+)/)
-      get_details_for_user
+      input = answer.match(/(detail).+for (.+)/)
+      get_details_for_user(input)
     ### ABOUT ME ###
     elsif 
       my_sentiment_score
@@ -68,17 +66,17 @@ def get_user_input
       most_popular_tweet
     ### RELATIONS ##
     elsif answer.match(/all (of )?(.+)'s tweets/) || answer.match(/all tweets (.*)((from)|(by)) (.*)/)
-      $input = answer.match(/all (of )?(.+)'s tweets/) || answer.match(/all tweets (.*)((from)|(by)) (.*)/)
-      all_user_tweets
+      input = answer.match(/all (of )?(.+)'s tweets/) || answer.match(/all tweets (.*)((from)|(by)) (.*)/)
+      all_user_tweets(input)
     elsif answer.match(/all (of )?(.+)'s hashtags/) || answer.match(/all hashtags .*by (.*)/)
-      $input = answer.match(/all (of )?(.+)'s hashtags/) || answer.match(/all hashtags .*by (.*)/)
-      all_user_hashtags
+      input = answer.match(/all (of )?(.+)'s hashtags/) || answer.match(/all hashtags .*by (.*)/)
+      all_user_hashtags(input)
     elsif answer.match(/(A|a)ll.*tweets.*#(.*)/) || answer.match(/((tweeting)|(saying)).*#(.*)/)
-      $input = answer.match(/(A|a)ll.*tweets.*#(.*)/) || answer.match(/((tweeting)|(saying)).*#(.*)/)
-      all_hashtag_tweets
+      input = answer.match(/(A|a)ll.*tweets.*#(.*)/) || answer.match(/((tweeting)|(saying)).*#(.*)/)
+      all_hashtag_tweets(input)
     elsif answer.match(/(A|a)ll.*((users)|(people)|(accounts)).*((hashtag )|(#))(.*)/) || answer.match(/(E|e)veryone.*((about )|(#))(.*)/)
-      $input = answer.match(/(A|a)ll.*((users)|(people)|(accounts)).*((hashtag )|(#))(.*)/) || answer.match(/(E|e)veryone.*((about )|(#))(.*)/)
-      all_hashtag_users
+      input = answer.match(/(A|a)ll.*((users)|(people)|(accounts)).*((hashtag )|(#))(.*)/) || answer.match(/(E|e)veryone.*((about )|(#))(.*)/)
+      all_hashtag_users(input)
     elsif
       user_top_tweets
     elsif

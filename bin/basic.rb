@@ -13,8 +13,8 @@ def number_of_hashtags
   puts ""
 end
 
-def get_details_for_user
-  user = find_user($input)
+def get_details_for_user(input)
+  user = find_user(input)
   if user
     puts "Here's everything we know about #{user.name}:"
     puts "\nname: #{user.name}"
