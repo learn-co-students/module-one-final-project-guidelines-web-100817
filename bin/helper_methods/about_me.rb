@@ -1,22 +1,6 @@
 ### ABOUT ME ###
 def my_details
-  puts "\nHere's everything there is to know about you:"
-  puts "\n#{"name:".cyan} #{User.first.name}"
-  puts "#{"username:".cyan} @#{User.first.twitter_handle}"
-  puts "#{"description:".cyan} #{User.first.description}" 
-  puts "#{"location:".cyan} #{User.first.location}"
-  puts "#{"# of tweets:".cyan} #{number_readability(User.first.tweet_count)}"
-  puts "#{"# following:".cyan} #{number_readability(User.first.following)}"
-  puts "#{"# of followers:".cyan} #{number_readability(User.first.followers)}\n\n"
-  print "Would you like to view your profile in the browser? "
-  answer = gets.chomp
-  if answer.match(/(?:[Yy]$)|(?:[Yy]es)|(?:[Ss]ure)/)
-    twitter_url = "https://twitter.com/#{User.first.twitter_handle}"
-    `open #{twitter_url}`
-    print "\nThere you go. "
-  else
-    print "\nSuit yourself. "
-  end
+  format_details(User.first)
 end
 
 def my_tweets
@@ -78,4 +62,14 @@ end
     user = User.first
     hashtag = Hashtag.joins(:tweets).where("tweets.user_id = ?", user.id).group("hashtags.title").order("count(hashtags.title) DESC").first
     puts "\nYour most used hashtag is #{"#".light_green}#{hashtag.title.light_green}. You've tweeted about it #{user.tweet_hashtags.where("hashtag_id = ?", hashtag.id).count.to_s.light_green} times.\n\n"
+  end
+
+  def my_hashtags
+    rows = User.first.hashtags.uniq.sort.inject([]) do |memo, hashtag|
+      memo << ["\##{hashtag.title}", User.first.tweet_hashtags.where("hashtag_id = ?", hashtag.id).count]
+    end
+    table = Terminal::Table.new(:headings => ["Hashtag".yellow, "Times Used".yellow], :rows => rows)
+    puts ""
+    puts table
+    puts ""
   end
