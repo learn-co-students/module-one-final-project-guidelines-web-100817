@@ -98,3 +98,23 @@ def hashtag_top_users(input)
     puts ""
   end
 end
+
+def hashtag_most_positive(input)
+  hashtag = find_hashtag(input)
+  if hashtag
+    puts "\nHere's the most positive tweet for #{hashtag.title}:"
+    tweet = hashtag.tweets.order("sentiment_score DESC").first
+    format_tweet(User.find(tweet.user_id), tweet)
+  end
+  puts ""
+end
+
+def hashtag_most_negative (input)
+  hashtag = find_hashtag(input)
+  if hashtag
+    puts "\nHere's the most negative tweet for #{hashtag.title}:"
+    tweet = hashtag.tweets.order("sentiment_score ASC").first
+    format_tweet(User.find(tweet.user_id), tweet)
+  end
+  puts ""
+end
