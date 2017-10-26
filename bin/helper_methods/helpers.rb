@@ -44,3 +44,23 @@ def format_tweet(user, tweet)
   puts "\n*----------------------------------------------*\n\n"
   sleep(0.5)
 end
+
+def format_details(user)
+  puts "\nHere's everything there is to know about you:"
+  puts "\n#{"name:".cyan} #{user.name}"
+  puts "#{"username:".cyan} @#{user.twitter_handle}"
+  puts "#{"description:".cyan} #{user.description}"
+  puts "#{"location:".cyan} #{user.location}"
+  puts "#{"# of tweets:".cyan} #{number_readability(user.tweet_count)}"
+  puts "#{"# following:".cyan} #{number_readability(user.following)}"
+  puts "#{"# of followers:".cyan} #{number_readability(user.followers)}\n\n"
+  print "Would you like to view your profile in the browser? "
+  answer = gets.chomp
+  if answer.match(/(?:[Yy]$)|(?:[Yy]es)|(?:[Ss]ure)/)
+    twitter_url = "https://twitter.com/#{user.twitter_handle}"
+    `open #{twitter_url}`
+    print "\nThere you go. "
+  else
+    print "Suit yourself. "
+  end
+end

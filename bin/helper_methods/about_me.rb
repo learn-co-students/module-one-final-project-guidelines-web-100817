@@ -1,22 +1,6 @@
 ### ABOUT ME ###
 def my_details
-  puts "\nHere's everything there is to know about you:"
-  puts "\n#{"name:".cyan} #{User.first.name}"
-  puts "#{"username:".cyan} @#{User.first.twitter_handle}"
-  puts "#{"description:".cyan} #{User.first.description}" 
-  puts "#{"location:".cyan} #{User.first.location}"
-  puts "#{"# of tweets:".cyan} #{number_readability(User.first.tweet_count)}"
-  puts "#{"# following:".cyan} #{number_readability(User.first.following)}"
-  puts "#{"# of followers:".cyan} #{number_readability(User.first.followers)}\n\n"
-  print "Would you like to view your profile in the browser? "
-  answer = gets.chomp
-  if answer.match(/(?:[Yy]$)|(?:[Yy]es)|(?:[Ss]ure)/)
-    twitter_url = "https://twitter.com/#{User.first.twitter_handle}"
-    `open #{twitter_url}`
-    print "\nThere you go. "
-  else
-    print "Suit yourself. "
-  end
+  format_details(User.first)
 end
 
 
