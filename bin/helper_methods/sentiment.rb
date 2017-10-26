@@ -16,23 +16,23 @@ def most_positive_friend
 end
 
 def most_negative_friend
-  puts "\nIs it true that #{Sentiment.most_negative_friend.red} is always a bummer?\n\n"
+  puts "\nIs it true that #{Sentiment.most_negative_friend.light_red} is always a bummer?\n\n"
 end
 
 def most_positive_tweet
-  puts "\nDoes this make you happy?"
+  puts ""
   format_tweet(Sentiment.most_positive_tweet[0], Sentiment.most_positive_tweet[1])
 end
 
 def most_negative_tweet
-  puts "\nBack in MY day, we walked uphill everywhere we went."
+  puts ""
   format_tweet(Sentiment.most_negative_tweet[0], Sentiment.most_negative_tweet[1])
 end
 
 def average_friend_sentiment
-  puts "\nThe average mood of the people you follow is:"
+  print "\nThe average mood of the people you follow is "
   sentiment = Sentiment.get_avg_sentiment
-  puts sentiment
+  puts sentiment.to_s.light_green
   if sentiment < -0.5
     sentiment = "dreadful"
   elsif sentiment < 0
@@ -42,17 +42,17 @@ def average_friend_sentiment
   else
     sentiment = "beaming"
   end
-  puts "That means you're surrounded by #{sentiment} people."
+  puts "That means you're surrounded by #{sentiment} people.\n\n"
 end
 
 def most_positive_hashtag
   hash = Sentiment.avg_hashtag_hash
   title = hash.find {|name, score| score == hash.values.max}[0]
-  puts "\nIf you want to be cruel, you should tweet with \##{title}.\n\n"
+  puts "\nIf you want to be cruel, you should tweet with #{"#".light_green}#{title.light_green}.\n\n"
 end
 
 def most_negative_hashtag
   hash = Sentiment.avg_hashtag_hash
   title = hash.find {|name, score| score == hash.values.min}[0]
-  puts "\nTo wallow in your misery with other likeminded people, use \##{title}.\n\n"
+  puts "\nTo wallow in your misery with other likeminded people, use #{"#".light_red}#{title.light_red}.\n\n"
 end

@@ -15,10 +15,16 @@ def my_details
     `open #{twitter_url}`
     print "\nThere you go. "
   else
-    print "Suit yourself. "
+    print "\nSuit yourself. "
   end
 end
 
+def my_tweets
+  puts "\nHere are your tweets: \n\n"
+  User.first.tweets.order("tweets.date_posted DESC").each do |tweet|
+    format_tweet(User.first, tweet)
+  end
+end
 
 def my_sentiment_score
   sentiment = Sentiment.get_avg_for_user(User.first)

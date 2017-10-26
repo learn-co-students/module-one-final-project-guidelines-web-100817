@@ -35,7 +35,7 @@ def find_hashtag(input)
 end
 
 def format_tweet(user, tweet)
-  puts "\n#{user.name}" + " @#{user.twitter_handle}".yellow
+  puts "#{user.name}" + " @#{user.twitter_handle}".yellow
   puts "#{tweet.date_posted.strftime("%A, %b %d %Y")} #{tweet.date_posted.strftime("%I:%M")}"
   puts "\n#{tweet.content}\n"
   print "#{"\u{2764}".light_red} #{number_readability(tweet.likes)}"
