@@ -57,3 +57,13 @@ end
     hashtag = Hashtag.joins(:tweets).where("tweets.user_id = ?", user.id).group("hashtags.title").order("count(hashtags.title) DESC").first
     puts "\nYour most used hashtag is #{"#".light_green}#{hashtag.title.light_green}. You've tweeted about it #{user.tweet_hashtags.where("hashtag_id = ?", hashtag.id).count.to_s.light_green} times.\n\n"
   end
+
+  def my_hashtags
+    rows = User.first.hashtags.uniq.sort.inject([]) do |memo, hashtag|
+      memo << ["\##{hashtag.title}", User.first.tweet_hashtags.where("hashtag_id = ?", hashtag.id).count]
+    end
+    table = Terminal::Table.new(:headings => ["Hashtag".yellow, "Times Used".yellow], :rows => rows)
+    puts ""
+    puts table
+    puts ""
+  end

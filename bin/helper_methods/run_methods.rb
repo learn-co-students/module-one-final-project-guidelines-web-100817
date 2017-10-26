@@ -106,6 +106,9 @@ def get_user_input
     elsif
       answer.match(/my average tweeting time/)
       my_average_tweeting_time
+    elsif
+      answer.match(/my hashtags/)
+      my_hashtags
 
     ### POPULARITY ###
 
@@ -267,6 +270,7 @@ def help
   puts "  - my most popular tweet".cyan
   puts "  - my most common hashtag".cyan
   puts "  - my average tweeting time".cyan
+  puts "  - my hashtags".cyan
   puts "- Popularity".yellow
   puts "  - most popular friend".cyan
   puts "  - most popular hashtag".cyan
