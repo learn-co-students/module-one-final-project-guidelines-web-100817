@@ -24,6 +24,7 @@ GEM
     equalizer (0.0.11)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
+    fuzzy_match (2.1.0)
     google-cloud-core (1.0.0)
       google-cloud-env (~> 1.0)
       googleauth (~> 0.5.1)
@@ -139,6 +140,7 @@ PLATFORMS
 
 DEPENDENCIES
   colorize
+  fuzzy_match
   google-cloud-language
   httparty
   json
