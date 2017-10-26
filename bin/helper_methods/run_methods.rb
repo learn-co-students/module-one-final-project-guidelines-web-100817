@@ -200,9 +200,9 @@ def get_user_input
       answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s most negative tweet/)
       user_most_negative_tweet(input)
     elsif
-      answer.match(/(?:(?:most (?:(?:liked)|(?:popular)))|(?:[Tt]op)) tweets.*\b((?:(?:#)|(?:[A-Z])).*)/)
+      answer.match(/(?:(?:most (?:(?:liked)|(?:popular)))|(?:[Tt]op)) tweets.*\b((?:(?:#)|(?:[A-Z]))\w*)/)
       input = 
-      answer.match(/(?:(?:most (?:(?:liked)|(?:popular)))|(?:[Tt]op)) tweets.*\b((?:(?:#)|(?:[A-Z])).*)/)
+      answer.match(/(?:(?:most (?:(?:liked)|(?:popular)))|(?:[Tt]op)) tweets.*\b((?:(?:#)|(?:[A-Z]))\w*)/)
       hashtag_top_tweets(input)
     elsif
       answer.match(/[Ww](?:(?:hich)|(?:ho)).*about ((?:(?:#)|(?:[A-Z]))\w+)\s.*most/) ||
@@ -212,14 +212,14 @@ def get_user_input
       answer.match(/[Ww](?:(?:hich)|(?:ho)).*most about ((?:(?:#)|(?:[A-Z]))\w+)/)
       hashtag_top_users(input)
     elsif
-      answer.match(/most positive tweet .+\b((?:(?:#)|(?:[A-Z])).+)/) || answer.match(/tweet .+ ((?:(?:#)|(?:[A-Z])).+) is most positive/)
+      answer.match(/most positive tweet .+((?:(?:#)|(?:[A-Z])).+)/) || answer.match(/tweet .+ ((?:(?:#)|(?:[A-Z])).+) is most positive/)
       input =
-      answer.match(/most positive tweet .+\b((?:(?:#)|(?:[A-Z])).+)/) || answer.match(/tweet .+ ((?:(?:#)|(?:[A-Z])).+) is most positive/)
+      answer.match(/most positive tweet .+((?:(?:#)|(?:[A-Z])).+)/) || answer.match(/tweet .+ ((?:(?:#)|(?:[A-Z])).+) is most positive/)
       hashtag_most_positive(input)
     elsif
-      answer.match(/most negative tweet .+\b((?:(?:#)|(?:[A-Z])).+)/) || answer.match(/tweet .+ ((?:(?:#)|(?:[A-Z])).+) is most negative/)
+      answer.match(/most negative tweet .+((?:(?:#)|(?:[A-Z])).+)/) || answer.match(/tweet .+ ((?:(?:#)|(?:[A-Z])).+) is most negative/)
       input =
-      answer.match(/most negative tweet .+\b((?:(?:#)|(?:[A-Z])).+)/) || answer.match(/tweet .+ ((?:(?:#)|(?:[A-Z])).+) is most negative/)
+      answer.match(/most negative tweet .+((?:(?:#)|(?:[A-Z])).+)/) || answer.match(/tweet .+ ((?:(?:#)|(?:[A-Z])).+) is most negative/)
       hashtag_most_negative(input)
 
     ### SENTIMENT ###

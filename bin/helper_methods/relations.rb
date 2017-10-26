@@ -80,7 +80,7 @@ end
 def hashtag_top_tweets(input)
   hashtag = find_hashtag(input)
   if hashtag
-    puts "\nHere are the 5 most popular tweets about \##{hashtag.title.light_green}:\n\n"
+    puts "\nHere are the 5 most popular tweets about #{"#".light_green}#{hashtag.title.light_green}:\n\n"
     hashtag.tweets.order("tweets.likes DESC").limit(5).each do |tweet|
       user = User.find(tweet.user_id)
       format_tweet(user, tweet)
@@ -102,7 +102,7 @@ end
 def hashtag_most_positive(input)
   hashtag = find_hashtag(input)
   if hashtag
-    puts "\nHere's the most positive tweet for #{hashtag.title}:"
+    puts "\nHere's the most positive tweet for #{hashtag.title.light_green}:\n\n"
     tweet = hashtag.tweets.order("sentiment_score DESC").first
     format_tweet(User.find(tweet.user_id), tweet)
   end
@@ -112,7 +112,7 @@ end
 def hashtag_most_negative (input)
   hashtag = find_hashtag(input)
   if hashtag
-    puts "\nHere's the most negative tweet for #{hashtag.title}:"
+    puts "\nHere's the most negative tweet for #{hashtag.title.light_green}:\n\n"
     tweet = hashtag.tweets.order("sentiment_score ASC").first
     format_tweet(User.find(tweet.user_id), tweet)
   end
