@@ -190,7 +190,6 @@ def get_user_input
       answer.match(/hashtags.*(?:(?:tweet)|(?:use)).*most.*by ((?:(?:[A-Z])|(?:@)).+(?:(?:\s\w+))?)\?/)
       user_top_hashtags(input)
     elsif
-<<<<<<< HEAD
       answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s most positive tweet/)
       input =
       answer.match(/((?:(?:\s[A-Z])|(?:@)).+(?:(?:\s.+))?)'s most positive tweet/)
@@ -211,18 +210,6 @@ def get_user_input
       input = 
       answer.match(/[Ww](?:(?:hich)|(?:ho)).*about ((?:(?:#)|(?:[A-Z]))\w+)\s.*most/) ||
       answer.match(/[Ww](?:(?:hich)|(?:ho)).*most about ((?:(?:#)|(?:[A-Z]))\w+)/)
-=======
-      answer.match(/most (?:(?:liked)|(?:popular)) tweets.*\b((?:(?:#)|(?:[A-Z])).*)/)
-      input =
-      answer.match(/most (?:(?:liked)|(?:popular)) tweets.*\b((?:(?:#)|(?:[A-Z])).*)/)
-      hashtag_top_tweets(input)
-    elsif
-      answer.match(/[Ww]hich.*about ((?:(?:#)|(?:[A-Z]))\w+)\s.*most/) ||
-      answer.match(/[Ww]hich.*most about ((?:(?:#)|(?:[A-Z]))\w+)/)
-      input =
-      answer.match(/[Ww]hich.*about ((?:(?:#)|(?:[A-Z]))\w+)\s.*most/) ||
-      answer.match(/[Ww]hich.*most about ((?:(?:#)|(?:[A-Z]))\w+)/)
->>>>>>> hashtags
       hashtag_top_users(input)
     elsif
       answer.match(/most positive tweet .+\b((?:(?:#)|(?:[A-Z])).+)/) || answer.match(/tweet .+ ((?:(?:#)|(?:[A-Z])).+) is most positive/)
@@ -344,12 +331,7 @@ def help
   puts "  - user's most positive/negative tweet".cyan
   puts "  - hashtag's top tweets".cyan
   puts "  - hashtag's top users".cyan
-<<<<<<< HEAD
   puts "  - hashtag's most positive/negative tweet".cyan
-=======
-  puts "  - hashtag's most positive tweet".cyan
-  puts "  - hashtag's most negative tweet".cyan
->>>>>>> hashtags
   puts "- Sentiment".yellow
   puts "  - friends table".cyan
   puts "  - hashtags table".cyan
