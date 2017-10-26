@@ -23,7 +23,7 @@ def find_user(input)
   else
     if user.start_with?("@")
       match = FuzzyMatch.new(User.all, :read => :twitter_handle).find(user[1..-1])
-      puts "\nHmm... did you mean #{match.twitter_handle}?"
+      print "\nHmm... did you mean #{match.twitter_handle}? "
       answer = gets.chomp
       if answer.match(/^[Yy]/)
         match
@@ -32,7 +32,7 @@ def find_user(input)
       end
     else
       match = FuzzyMatch.new(User.all, :read => :name).find(user)
-      puts "\nHmm... did you mean #{match.name}?"
+      print "\nHmm... did you mean #{match.name}? "
       answer = gets.chomp
       if answer.match(/^[Yy]/)
         match
@@ -50,7 +50,7 @@ def find_hashtag(input)
   else
     if hashtag.start_with?("#")
       match = FuzzyMatch.new(Hashtag.all, :read => :title).find(hashtag[1..-1])
-      puts "\nHmm... did you mean #{match.title}?"
+      print "\nHmm... did you mean #{match.title}? "
       answer = gets.chomp
       if answer.match(/^[Yy]/)
         match
@@ -59,7 +59,7 @@ def find_hashtag(input)
       end
     else
       match = FuzzyMatch.new(Hashtag.all, :read => :title).find(hashtag)
-      puts "\nHmm... did you mean #{match.title}?"
+      print "\nHmm... did you mean #{match.title}? "
       answer = gets.chomp
       if answer.match(/^[Yy]/)
         match
@@ -82,7 +82,13 @@ def format_tweet(user, tweet)
 end
 
 def format_details(user)
-  user == User.first ? who = "you" : who = user.name.light_green
+  if user == User.first 
+    who = "you" 
+    who2 = "your"
+  else
+    who = user.name.light_green
+    who2 = "#{user.name}'s".light_green
+  end
   puts "\nHere's everything there is to know about #{who}:"
   puts "\n#{"name:".cyan} #{user.name}"
   puts "#{"username:".cyan} @#{user.twitter_handle}"
@@ -92,7 +98,7 @@ def format_details(user)
   puts "#{"# following:".cyan} #{number_readability(user.following)}"
   puts "#{"# of followers:".cyan} #{number_readability(user.followers)}"
   puts "#{"average sentiment:".cyan} #{Sentiment.get_avg_for_user(user)}\n\n" 
-  print "Would you like to view your profile in the browser? "
+  print "Would you like to view #{who2} profile in the browser? "
   answer = gets.chomp
   if answer.match(/(?:[Yy]$)|(?:[Yy]es)|(?:[Ss]ure)/)
     twitter_url = "https://twitter.com/#{user.twitter_handle}"
