@@ -1,3 +1,3 @@
 class Score < ActiveRecord::Base
-  belongs_to :users
+  belongs_to :game
 end

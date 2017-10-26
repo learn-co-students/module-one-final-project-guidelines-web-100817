@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 7) do
   end
 
   create_table "games", force: :cascade do |t|
+    t.integer "user_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -29,6 +30,7 @@ ActiveRecord::Schema.define(version: 7) do
 
   create_table "scores", force: :cascade do |t|
     t.integer "score"
+    t.integer "game_id"
   end
 
   create_table "users", force: :cascade do |t|
