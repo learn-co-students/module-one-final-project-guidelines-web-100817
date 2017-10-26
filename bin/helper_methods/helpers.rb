@@ -21,16 +21,52 @@ def find_user(input)
   if user.start_with?("@") ? User.find_by(twitter_handle: user.split("")[1..-1].join("")) : User.find_by(name: user)
     user.start_with?("@") ? User.find_by(twitter_handle: user.split("")[1..-1].join("")) : User.find_by(name: user)
   else
-    puts "\nHmm... I couldn't seem to find who you were looking for.\n\n"
+    if user.start_with?("@")
+      match = FuzzyMatch.new(User.all, :read => :twitter_handle).find(user[1..-1])
+      puts "\nHmm... did you mean #{match.twitter_handle}?"
+      answer = gets.chomp
+      if answer.match(/^[Yy]/)
+        match
+      else
+        puts "Sorry, no match found."
+      end
+    else
+      match = FuzzyMatch.new(User.all, :read => :name).find(user)
+      puts "\nHmm... did you mean #{match.name}?"
+      answer = gets.chomp
+      if answer.match(/^[Yy]/)
+        match
+      else
+        puts "Sorry, no match found."
+      end
+    end
   end
 end
 
 def find_hashtag(input)
   hashtag = input.captures[-1].strip
-  if hashtag
+  if hashtag.start_with?("#") ? Hashtag.find_by(title: hashtag.split("")[1..-1].join("")) : Hashtag.find_by(title: hashtag)
     hashtag.start_with?("#") ? Hashtag.find_by(title: hashtag.split("")[1..-1].join("")) : Hashtag.find_by(title: hashtag)
   else
-    puts "\nHmm... I couldn't seem to find what you were looking for.\n\n"
+    if hashtag.start_with?("#")
+      match = FuzzyMatch.new(Hashtag.all, :read => :title).find(hashtag[1..-1])
+      puts "\nHmm... did you mean #{match.title}?"
+      answer = gets.chomp
+      if answer.match(/^[Yy]/)
+        match
+      else
+        puts "Sorry, no match found."
+      end
+    else
+      match = FuzzyMatch.new(Hashtag.all, :read => :title).find(hashtag)
+      puts "\nHmm... did you mean #{match.title}?"
+      answer = gets.chomp
+      if answer.match(/^[Yy]/)
+        match
+      else
+        puts "Sorry, no match found."
+      end
+    end
   end
 end
 
