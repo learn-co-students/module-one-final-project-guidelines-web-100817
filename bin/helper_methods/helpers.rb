@@ -18,7 +18,7 @@ end
 
 def find_user(input)
   user = input.captures[-1].strip
-  if user
+  if user.start_with?("@") ? User.find_by(twitter_handle: user.split("")[1..-1].join("")) : User.find_by(name: user)
     user.start_with?("@") ? User.find_by(twitter_handle: user.split("")[1..-1].join("")) : User.find_by(name: user)
   else
     puts "\nHmm... I couldn't seem to find who you were looking for.\n\n"
@@ -46,14 +46,16 @@ def format_tweet(user, tweet)
 end
 
 def format_details(user)
-  puts "\nHere's everything there is to know about you:"
+  user == User.first ? who = "you" : who = user.name.light_green
+  puts "\nHere's everything there is to know about #{who}:"
   puts "\n#{"name:".cyan} #{user.name}"
   puts "#{"username:".cyan} @#{user.twitter_handle}"
   puts "#{"description:".cyan} #{user.description}"
   puts "#{"location:".cyan} #{user.location}"
   puts "#{"# of tweets:".cyan} #{number_readability(user.tweet_count)}"
   puts "#{"# following:".cyan} #{number_readability(user.following)}"
-  puts "#{"# of followers:".cyan} #{number_readability(user.followers)}\n\n"
+  puts "#{"# of followers:".cyan} #{number_readability(user.followers)}"
+  puts "#{"average sentiment:".cyan} #{Sentiment.get_avg_for_user(user)}\n\n" 
   print "Would you like to view your profile in the browser? "
   answer = gets.chomp
   if answer.match(/(?:[Yy]$)|(?:[Yy]es)|(?:[Ss]ure)/)
@@ -61,6 +63,6 @@ def format_details(user)
     `open #{twitter_url}`
     print "\nThere you go. "
   else
-    print "Suit yourself. "
+    print "\nSuit yourself. "
   end
 end
