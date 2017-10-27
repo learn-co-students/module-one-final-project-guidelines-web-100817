@@ -2,7 +2,7 @@ require_relative '../config/environment.rb'
 require_relative 'api_communicator.rb'
 
  def welcome
-   puts "Welcome Art Fan!"
+   puts centralize_text("Welcome Art Fan!")
    divisor
    puts ""
    puts ""
@@ -24,16 +24,21 @@ def prints_menu(array,message = "Please make your selection")
   puts ""
   puts message
   array.each_with_index {|memo,index| puts "#{index + 1} - #{memo}"}
+  puts ""
+  puts ""
   divisor
   puts ""
   puts ""
 end
 
-def prints_menu_horizontal(array)
+def prints_menu_horizontal(array,message = "")
+  puts ""
+  puts ""
+  puts centralize_text(message)
   divisor
   menu = []
   array.each_with_index {|memo,index| menu << "#{index + 1} - #{memo}"}
-  puts menu.join('          ')
+  puts centralize_text(menu.join('          '))
   divisor
 end
 
@@ -77,21 +82,16 @@ def gallery_menu(user)
       when "2"
         counter = pieces[:pieces].find_index(piece) +1
       when "3"
-        select_collections(user)
-        # prints_menu([list_collections(user).name],"")
-        # selection = get_user_input(["Select Your Collection"])
+        collection = select_collections(user)
+        collection.pieces << piece
+        collection.save
         puts "Saved To Your Collection"
-        collection_to_save = user.collections.all[(selection.to_i)-1]
-        collection_to_save.pieces << piece
-        collection_to_save.save
-        # genes = []
-        # pieces[:genes].map do |gene_string|
-        #   Gene.new(gene_string.name)
-        #   genes << self
-        # genes.each do |gene_instance|
-        #   piece << gene_instance
+        genes = pieces[:genes].select {|gene|gene == piece.to_s}.values[0]
+        genes.each {|gene|piece.genes << Gene.new(name: gene)}
+        piece.save
         counter = pieces[:pieces].find_index(piece) +1
       when "4"
+        clear_terminal
         break
       end
       if counter < 0
@@ -116,8 +116,12 @@ def menu_1(user)
     when "2"#{search gallery}
       gallery_menu(user)
     when "3"
+      clear_terminal
+      prints_menu([], centralize_text("Good Bye, #{user.name}"))
+      good_bye = Piece.new(name: "good bye", img_url: "http://blog.monitis.com/wp-content/uploads/2012/02/ruby.jpeg")
+      good_bye.print
+      puts centralize_text("\\Learn---------------Love---------------Code\\")
       break
-      puts "Here is the next page url #{pieces[:next]}"
     end
   end
 end
@@ -135,6 +139,8 @@ def menu_2(user)
     menu_3(user,collection)
   when "2"
     create_collection(user)
+  else
+    clear_terminal
   end
 end
 
@@ -158,31 +164,35 @@ def menu_3(user,collection)
           puts "The #{collection.name}, has been removed from your profile"
         end
      when "3"
-        pieces = collection.pieces.all.each_with_index {|piece,index| puts "#{index + 1} - #{piece.name}"}
-        if pieces.empty?
-          divisor
-          puts ""
-          puts ""
-          puts "This collection is empty"
-          puts ""
-          puts ""
-          divisor
-        else
-          piece_input = get_user_input("Choose the Piece to see more options or type any other key to go back")
+      clear_terminal
+      divisor
+      pieces = collection.pieces.all.each_with_index {|piece,index| puts "#{index + 1} - #{piece.name}"}
+      divisor
+      if pieces.empty?
+        print_menu([],"This collection is empty")
+      else
+        piece_input = get_user_input("Choose the Piece to see more options or type any other key to go back")
         piece_menu(collection.pieces.all[(piece_input.to_i) -1],collection,user)
-       end
+     end
      when "4"
       search_for_pieces(user,collection)
+    else
+      clear_terminal
     end
 end
 
 def piece_menu(piece,collection,user)
+  clear_terminal
   piece.print
+  puts ""
+  puts "====================================================================================================="
+  puts centralize_text("General Information")
   Piece.local_methods.each {|keys| puts  "#{keys}: #{piece[keys]}"}
   puts ""
   puts ""
   divisor
-  # piece.genes.each {|gene| puts "#{gene.name}"} wait until gets genes
+  puts centralize_text("Genes")
+  piece.genes.each {|gene| puts "#{gene.name}"}
   puts ""
   puts ""
   prints_menu_horizontal(["Remove From Collection","Go Back"])
@@ -190,10 +200,11 @@ def piece_menu(piece,collection,user)
     when "1"
         confirm = get_user_input("Are you sure you want to remove the item from your collection? Yes/No")
         if confirm == "Yes"
-          binding.pry
-          Collection.find_by(id: piece.collection_id).pieces.delete(piece)
+          collection.pieces.find(piece.id).destroy
           puts "The #{piece.name}, has been removed from your collection"
         end
+      else
+        clear_terminal
   end
 
 end
@@ -205,16 +216,32 @@ def exit
 end
 
 def divisor
-  puts "====================================================================================="
+  puts "====================================================================================================="
 end
 
 def clear_terminal
   Gem.win_platform? ? (system "cls") : (system "clear")
 end
 def search_for_pieces(user,collection)
-  # collection.find_by()
-  binding.pry
-  collection.pieces.find_by(id: 1)
+  clear_terminal
+  prints_menu_horizontal(Piece.local_methods,"Search by")
+  user_input = get_user_input
+  if (1..5) === user_input.to_i
+    search_string = get_user_input("Please enter the search value")
+    if user_input == 1
+      piece = collection.pieces.find_by(Piece.local_methods[(user_input.to_i) -1] => search_string.to_i)
+    else
+      piece = collection.pieces.find_by(Piece.local_methods[(user_input.to_i) -1] => search_string)
+    end
+    if piece
+      piece_menu(piece,collection,user)
+    else
+      prints_menu([],"Sorry, but no match was found")
+    end
+  else
+    prints_menu([],"Sorry, but that was an invalid entry, please try again!")
+  end
+
 end
 
 def select_collections(user)
@@ -223,4 +250,12 @@ def select_collections(user)
   selection = get_user_input(["Select Your Collection"])
   clear_terminal
   user.collections[(selection.to_i)- 1]
+end
+
+def centralize_text(string)
+  base = "====================================================================================================="
+  margin = (base.length - string.length) /2
+  filler = ""
+  margin.times{filler += " "}
+  filler + string
 end
