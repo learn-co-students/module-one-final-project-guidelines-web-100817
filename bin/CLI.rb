@@ -18,11 +18,11 @@ def get_user
   echo == true ? input = gets.chomp : STDIN.noecho(&:gets).chomp
  end
 
-def prints_menu(array)
+def prints_menu(array,message = "Please make your selection")
   divisor
   puts ""
   puts ""
-  puts "Please make your selection"
+  puts message
   array.each_with_index {|memo,index| puts "#{index + 1} - #{memo}"}
   divisor
   puts ""
@@ -63,6 +63,7 @@ end
 def gallery_menu(user)
   counter = 0
   response = 0
+  viewed_pages=[]
   pieces = get_pieces
   # add "self" hrefs to new array of past pages (use .pop to delete and return)
     until response == 4
@@ -72,12 +73,13 @@ def gallery_menu(user)
       response = get_user_input
       case response
       when "1"
-        counter -= 1
+        counter = pieces[:pieces].find_index(piece) -1
       when "2"
-        counter += 1
+        counter = pieces[:pieces].find_index(piece) +1
       when "3"
-        prints_menu(list_collections(user))
-        selection = get_user_input(["Select Your Collection"])
+        select_collections(user)
+        # prints_menu([list_collections(user).name],"")
+        # selection = get_user_input(["Select Your Collection"])
         puts "Saved To Your Collection"
         collection_to_save = user.collections.all[(selection.to_i)-1]
         collection_to_save.pieces << piece
@@ -88,16 +90,18 @@ def gallery_menu(user)
         #   genes << self
         # genes.each do |gene_instance|
         #   piece << gene_instance
-        counter += 1
+        counter = pieces[:pieces].find_index(piece) +1
       when "4"
         break
       end
       if counter < 0
-          pieces = get_pieces(lastpage)
-          counter = 0
+          previous_page = viewed_pages.pop
+          previous_page ? pieces = get_pieces(previous_page): nil
+          counter = 4
       elsif counter > 4
+        viewed_pages << pieces[:self]
         pieces = get_pieces(pieces[:next])
-        counter =0
+        counter = 0
       end
     end
 end
@@ -125,13 +129,18 @@ def menu_2(user)
   user_input = get_user_input
   case user_input
   when "1"
-    menu_3(user,get_collection(user))
+    clear_terminal
+    collection = select_collections(user)
+    clear_terminal
+    menu_3(user,collection)
   when "2"
     create_collection(user)
   end
 end
 
 def menu_3(user,collection)
+  clear_terminal
+  puts collection.name
   prints_menu(Menu_3)
   case user_input = get_user_input
     when "1"
@@ -143,11 +152,13 @@ def menu_3(user,collection)
         if confirm == "Yes"
           collection.destroy
           collection.save
+          # had to include this, when item was destroyed it still persisted as an instance,
+          # even though it was no longer existent on the database, this line deletes the instance
+          user.collections.delete(collection)
           puts "The #{collection.name}, has been removed from your profile"
         end
      when "3"
         pieces = collection.pieces.all.each_with_index {|piece,index| puts "#{index + 1} - #{piece.name}"}
-        # binding.pry
         if pieces.empty?
           divisor
           puts ""
@@ -204,4 +215,12 @@ def search_for_pieces(user,collection)
   # collection.find_by()
   binding.pry
   collection.pieces.find_by(id: 1)
+end
+
+def select_collections(user)
+  clear_terminal
+  prints_menu(user.collections.map{|collection|collection.name},"")
+  selection = get_user_input(["Select Your Collection"])
+  clear_terminal
+  user.collections[(selection.to_i)- 1]
 end
