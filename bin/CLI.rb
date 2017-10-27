@@ -255,7 +255,5 @@ end
 def centralize_text(string)
   base = "====================================================================================================="
   margin = (base.length - string.length) /2
-  filler = ""
-  margin.times{filler += " "}
-  filler + string
+  " " * margin + string
 end
