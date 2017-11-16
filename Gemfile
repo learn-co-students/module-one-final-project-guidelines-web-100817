@@ -1,7 +1,14 @@
-# frozen_string_literal: true
-source "https://rubygems.org"
+source 'https://rubygems.org'
+# source 'http://sourceforge.net/projects/tkimg'
 
-gem "sinatra-activerecord"
-gem "sqlite3"
-gem "pry"
-gem "require_all"
+gem 'json'
+gem 'sqlite3'
+gem 'activerecord'
+gem 'rspec'
+gem 'pry'
+gem 'sinatra-activerecord'
+gem 'rake'
+gem 'database_cleaner'
+gem 'require_all'
+gem 'rest-client'
+gem 'catpix'
