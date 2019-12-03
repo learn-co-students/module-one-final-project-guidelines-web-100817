@@ -1,7 +1,9 @@
+ENV["ACTIVE_RECORD_ENV"] ||= "development"
+
 require_relative 'config/environment'
 require 'sinatra/activerecord/rake'
 
-desc 'starts a console'
+
 task :console do
   Pry.start
 end
